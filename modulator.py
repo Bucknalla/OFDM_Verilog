@@ -1,4 +1,5 @@
 import os, sys, math, string
+import pickle
 import numpy as np
 import commpy as cp
 import matplotlib.pyplot as plt
@@ -49,14 +50,24 @@ class modulator:
             if(ext != ".bin"):
                 raise Exception
             bitstream = open(file, "r")
-            symbol_stream = open(".tmp","w") 
+            data_array = np.array([])
+            symbol_stream = open("tmp.bin", "wb")
             for bits in self.read_bits(bitstream):
                 data = self.generate_symbols(bits)
-                symbol_stream.write(str(data)+" ")
-                print(data)
+                # symbol_stream.write(str(data)+" ")
+                data_array = np.append(data_array,data)
                 if self.draw:
                     self.add_plot(data)
+            print(data_array)
+            # symbol_stream.close()
+            data_array.tofile(symbol_stream)
+
             symbol_stream.close()
+            symbol_stream = open("tmp.bin", "rb")
+
+            test = np.fromfile(symbol_stream,dtype=complex)
+            print(test)
+
             print(".tmp closed")
             if self.draw:
                 self.draw_plot()
@@ -81,7 +92,7 @@ class modulator:
             yield a
 
     def generate_symbols(self, bits):
-        return self.modulator.modulate(bits)
+        return self.modulator.modulate(bits)[0]
         
 class serial_parallel:
     def __init__(self, width=1):
@@ -162,8 +173,8 @@ mod = modulator()
 mod.open_bitstream("test.bin")
 ser = serial_parallel()
 ser.parallelise_data()
-ifft = ifft()
-ifft.ifft()
+# ifft = ifft()
+# ifft.ifft()
 
 plt.show()
 

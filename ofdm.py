@@ -42,6 +42,10 @@ class Bpsk():
         except Exception as e:
             raise e
 
+################
+#OFDM BASE CLASS
+################
+
 class Ofdm(Exception):
 
     ######################
@@ -106,7 +110,7 @@ class Ofdm(Exception):
     # GENERATE SYMBOL TABLE FROM MODULATION SCHEME
     ##############################################
 
-    # @catch_exception
+    @catch_exception
     def generate_symbols(self):
         self.payloadBits_per_OFDM = len(self.dataCarriers)*int(np.log2(self.mu))  # number of payload bits per OFDM symbol
         if self.mu == 2:
@@ -129,18 +133,18 @@ class Ofdm(Exception):
             plt.show(block=False)
             
     def __grey_code(self, n):
-        def grey_code_recurse(g,n):
-            k=len(g)
+        def grey_code_recurse(g, n):
+            k = len(g)
             if n<=0:
                 return
             else:
-                for i in range (k-1,-1,-1):
-                    char='1'+g[i]
+                for i in range (k-1, -1, -1):
+                    char = '1'+g[i]
                     g.append(char)
-                for i in range (k-1,-1,-1):
-                    g[i]='0'+g[i]
-                grey_code_recurse (g,n-1)
-        g=['0','1']
+                for i in range (k-1, -1, -1):
+                    g[i] = '0'+g[i]
+                grey_code_recurse (g, n-1)
+        g = ['0', '1']
         grey_code_recurse(g,n-1)
         g_new = []
         for word in g:
@@ -173,7 +177,7 @@ class Ofdm(Exception):
     # GENERATE RANDOM BITSTREAM
     ###########################
 
-    # @catch_exception
+    @catch_exception
     def generate_bitstream(self):
         self.bits = np.random.binomial(n=1, p=0.5, size=(int(self.payloadBits_per_OFDM), ))
 
@@ -186,7 +190,7 @@ class Ofdm(Exception):
     # SERIAL-TO-PARALLEL CONVERT BITS
     #################################
 
-    # @catch_exception
+    @catch_exception
     def serial_to_parallel(self):
         self.bits_SP = self.bits.reshape((len(self.dataCarriers), int(np.log2(self.mu))))
 
@@ -200,18 +204,8 @@ class Ofdm(Exception):
 
     @catch_exception
     def map_bits_to_symbols(self):
-        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        for b in self.bits_SP:
-            print(b)
-        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-
         self.QAM = np.array([self.mod.modulate(tuple(b)) for b in self.bits_SP])
         self.QAM = self.QAM.flatten()
-
-
-        print("-------------------------------------")
-        print(self.QAM)
-        print("-------------------------------------")
 
         if self.debug:
             print ("First 5 QAM symbols and bits:")
@@ -222,7 +216,7 @@ class Ofdm(Exception):
     # ALLOCATE SYMBOLS TO CARRIERS
     ##############################
 
-    # @catch_exception
+    @catch_exception
     def allocate_OFDM_symbols(self):
         self.symbol = np.zeros(self.K, dtype=complex) # the overall K subcarriers
         self.symbol[self.pilotCarriers] = self.P_Value  # allocate the pilot subcarriers 
@@ -249,7 +243,7 @@ class Ofdm(Exception):
     # ADD CYCLIC PREFIX
     ###################
 
-    # @catch_exception
+    @catch_exception
     def apply_cyclic_prefix(self):
         self.cp = self.OFDM_time[-(int(self.CP)):] # Take the last CP samples ...
         print(len(self.cp))

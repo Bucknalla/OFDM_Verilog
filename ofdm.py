@@ -26,6 +26,10 @@ def catch_exception(f):
             print('Caught an exception in', f.__name__)
     return func
 
+#######################
+#BPSK MODULATION SCHEME
+#######################
+
 class Bpsk():
     def __init__(self):
         pass
@@ -280,7 +284,6 @@ class Ofdm(Exception):
             plt.xlabel('Time'); plt.ylabel('$|x(t)|$')
             plt.grid(True)
             plt.show()
-
 
     def RX(self):
         pass

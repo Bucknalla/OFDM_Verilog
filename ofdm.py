@@ -86,10 +86,9 @@ class Ofdm(Exception):
     def generate_carriers(self):
         self.allCarriers = np.arange(self.K)  # indices of all subcarriers ([0, 1, ... K-1])
         self.pilotCarriers = self.allCarriers[::self.K//self.P] # Pilots is every (K/P)th carrier.
-        # For convenience of channel estimation, make the last carriers also be a pilot
-        self.pilotCarriers = np.hstack([self.pilotCarriers, np.array([self.allCarriers[-1]])])
+        self.pilotCarriers = np.hstack([self.pilotCarriers, np.array([self.allCarriers[-1]])]) # Make the last carriers also pilots
         self.P = self.P+1
-        self.dataCarriers = np.delete(self.allCarriers, self.pilotCarriers) # data carriers are all remaining carriers
+        self.dataCarriers = np.delete(self.allCarriers, self.pilotCarriers) # All remaining carriers are data carriers
 
         if self.debug:
             print ("allCarriers:   %s" % self.allCarriers)

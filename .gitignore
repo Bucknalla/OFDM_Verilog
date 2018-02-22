@@ -7,9 +7,13 @@
 [Ll]ib64
 [Ll]ocal
 [Ss]cripts
+[Ss]hare
+[Ee]tc
 CommPy
 para
 pyvenv.cfg
 .venv
 *.pyc
 pip-selfcheck.json
+*.ipynb
+jup_ofdm.py

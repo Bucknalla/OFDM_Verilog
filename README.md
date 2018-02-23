@@ -1,2 +1,2 @@
-# IFFT_Verilog
-Example of IFFT in Python and Verilog
+# OFDM_Verilog
+Example of OFDM in Python and Verilog

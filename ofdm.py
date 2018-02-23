@@ -95,7 +95,7 @@ class Ofdm(Exception):
             print ("pilotCarriers: %s" % self.pilotCarriers)
             print ("dataCarriers:  %s" % self.dataCarriers)
             plt.figure(1,figsize=(8,0.8))
-            plt.title('Carriers')
+            plt.title('Carrier Distribution')
             plt.plot(self.pilotCarriers, np.zeros_like(self.pilotCarriers), 'bo', label='pilot')
             plt.plot(self.dataCarriers, np.zeros_like(self.dataCarriers), 'ro', label='data')
             plt.legend(fontsize=10, ncol=2)
@@ -109,9 +109,12 @@ class Ofdm(Exception):
     # GENERATE SYMBOL TABLE FROM MODULATION SCHEME
     ##############################################
 
-    @catch_exception
+    # @catch_exception
     def generate_symbols(self):
-        self.payloadBits_per_OFDM = len(self.dataCarriers)*int(np.log2(self.mu))  # number of payload bits per OFDM symbol
+        log2mu = int(np.log2(self.mu))
+        log2mu2 = (log2mu+2)
+        # rootmu = int(math.sqrt(self.mu))
+        self.payloadBits_per_OFDM = len(self.dataCarriers)*log2mu  # number of payload bits per OFDM symbol
         if self.mu == 2:
             self.mod = Bpsk()
         else:
@@ -124,12 +127,22 @@ class Ofdm(Exception):
             for word in grey_code_list:
                 print(word)
                 symbol = self.mod.modulate(word)
+                for each in symbol:
+                    each = np.vectorize(each)
                 print(symbol)
                 plt.plot(symbol.real, symbol.imag, 'bo')
                 plt.text(symbol.real, symbol.imag+0.2, "".join(str(x) for x in word), ha='center')
             plt.grid(True)
-            plt.xlim((-4, 4)); plt.ylim((-4,4)); plt.xlabel('Real part (I)'); plt.ylabel('Imaginary part (Q)')
+            plt.xlim((-(log2mu2), (log2mu2))); plt.ylim((-(log2mu2),(log2mu2))); plt.xlabel('Real part (I)'); plt.ylabel('Imaginary part (Q)')
             plt.show(block=False)
+
+    # def generate_constellation(self):
+    #     grey_code_list = self.__grey_code(int(math.sqrt(self.mu)))
+    #     for word in grey_code_list:
+    #         print(word)
+    #         symbol = self.mod.modulate(word)
+    #         for each in symbol:
+    #             each = np.vectorize(each)
             
     def __grey_code(self, n):
         def grey_code_recurse(g, n):
@@ -271,6 +284,7 @@ class Ofdm(Exception):
 
         if self.debug:
             plt.figure(4,figsize=(8,2))
+            plt.title('TX & RX Channels in Time Domain')
             plt.plot(abs(self.OFDM_TX), label='TX signal')
             plt.plot(abs(self.OFDM_RX), label='RX signal')
             plt.legend(fontsize=10)
@@ -280,3 +294,64 @@ class Ofdm(Exception):
 
     def RX(self):
         pass
+    
+    # def remove_cyclic_prefix(self):
+    #     self.OFDM_RX_noCP = self.OFDM_RX[self.CP:(self.CP+self.K)]
+
+    # def FFT(self):
+    #     self.OFDM_demod = np.fft.fft(self.OFDM_RX_noCP)
+
+    # def channelEstimate(self):
+    #     self.pilots = self.OFDM_demod[self.pilotCarriers]  # extract the pilot values from the RX signal
+    #     self.Hest_at_pilots = self.pilots / self.P_Value # divide by the transmitted pilot values
+        
+    #     # Perform interpolation between the pilot carriers to get an estimate
+    #     # of the channel in the data carriers. Here, we interpolate absolute value and phase 
+    #     # separately
+    #     self.Hest_abs = scipy.interpolate.interp1d(self.pilotCarriers, abs(self.Hest_at_pilots), kind='linear')(self.allCarriers)
+    #     self.Hest_phase = scipy.interpolate.interp1d(self.pilotCarriers, np.angle(self.Hest_at_pilots), kind='linear')(self.allCarriers)
+    #     self.Hest = self.Hest_abs * np.exp(1j*self.Hest_phase)
+    
+    #     if self.debug:
+    #         plt.figure(5)
+    #         plt.plot(self.allCarriers, abs(self.H_exact), label='Correct Channel')
+    #         plt.stem(self.pilotCarriers, abs(self.Hest_at_pilots), label='Pilot estimates')
+    #         plt.plot(self.allCarriers, abs(self.Hest), label='Estimated channel via interpolation')
+    #         plt.grid(True); plt.xlabel('Carrier index'); plt.ylabel('$|H(f)|$'); plt.legend(fontsize=10)
+    #         plt.ylim(0,2)
+    #         plt.show(block=False)
+
+    # def equalize(self):
+    #     self.equalized_Hest = self.OFDM_demod / self.Hest
+
+    # def get_payload(self):
+    #     self.QAM_est = self.equalized_Hest[self.dataCarriers]
+    #     if self.debug:
+    #         plt.plot(self.QAM_est.real, self.QAM_est.imag, 'bo')
+
+    # def Demapping(self):
+    #     # array of possible constellation points
+    #     self.constellation = np.array([x for x in demapping_table.keys()]) # FIX THIS
+        
+    #     # calculate distance of each RX point to each possible point
+    #     self.dists = abs(self.QAM_est.reshape((-1,1)) - self.constellation.reshape((1,-1)))
+        
+    #     # for each element in QAM, choose the index in constellation 
+    #     # that belongs to the nearest constellation point
+    #     self.const_index = self.dists.argmin(axis=1)
+        
+    #     # get back the real constellation point
+    #     self.hardDecision = self.constellation[self.const_index]
+        
+    #     # transform the constellation point into the bit groups
+    #     self.PS_est = np.vstack([demapping_table[C] for C in self.hardDecision])
+        
+    #     if self.debug:
+    #         for qam, hard in zip(self.QAM_est, self.hardDecision):
+    #             plt.plot([qam.real, hard.real], [qam.imag, hard.imag], 'b-o');
+    #             plt.plot(self.hardDecision.real, self.hardDecision.imag, 'ro')
+
+    # def PS(self):
+    #     self.bits_est = self.PS_est.reshape((-1,))
+    #     if self.debug:
+    #         print("Obtained Bit error rate: ", np.sum(abs(self.bits-self.bits_est))/len(self.bits))

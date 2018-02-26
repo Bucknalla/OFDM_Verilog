@@ -41,7 +41,7 @@ module fft_tb();
     wire event_tlast_missing;
     wire event_tlast_unexpected;
     
-    fft fft_i (
+    ifft ifft_i (
         .M_AXIS_DATA_tdata(M_AXIS_DATA_tdata),
         .M_AXIS_DATA_tlast(M_AXIS_DATA_tlast),
         .M_AXIS_DATA_tready(M_AXIS_DATA_tready),
@@ -64,6 +64,7 @@ module fft_tb();
     
     initial 
     begin
+        S_AXIS_CONFIG_tvalid = 1'b0;
         aclk = 1'b0;        
         rst = 1'b1;
         repeat(4) #10 aclk = ~aclk;
@@ -75,6 +76,9 @@ module fft_tb();
     begin
         #60 S_AXIS_CONFIG_tdata = 24'b000001000100000000000011; // 00000 PAD | 100 FWD/INV | 0 PAD | 1000000 CP_LEN | 000 PAD | 00011 NFFT 
         S_AXIS_CONFIG_tvalid = 1'b1;
+        S_AXIS_DATA_tdata = 32'b11111011111001100000001011011001; // 1111 PAD | XK_IM | 0000 PAD | XK_RE
+        S_AXIS_DATA_tvalid = 1'b1;
+        #30;
     end
     
 endmodule

@@ -12,5 +12,6 @@
         "include":true,
         "lib":true
     },
-    "python.pythonPath": "${workspaceRoot}/bin/python3"
+    "python.pythonPath": "${workspaceRoot}/bin/python3",
+    "latex-workshop.debug.showUpdateMessage": false
 }

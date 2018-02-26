@@ -17,4 +17,5 @@ pyvenv.cfg
 pip-selfcheck.json
 *.ipynb
 jup_ofdm.py
-
+*.log
+*.pb

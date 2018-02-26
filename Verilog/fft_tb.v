@@ -64,7 +64,7 @@ module fft_tb();
     
     initial 
     begin
-        aclk = 1'b0;
+        aclk = 1'b0;        
         rst = 1'b1;
         repeat(4) #10 aclk = ~aclk;
         rst = 1'b0;
@@ -73,7 +73,7 @@ module fft_tb();
 
     initial
     begin
-        #60 S_AXIS_CONFIG_tdata = 24'b000001000100000000000011;
+        #60 S_AXIS_CONFIG_tdata = 24'b000001000100000000000011; // 00000 PAD | 100 FWD/INV | 0 PAD | 1000000 CP_LEN | 000 PAD | 00011 NFFT 
         S_AXIS_CONFIG_tvalid = 1'b1;
     end
     

@@ -24,7 +24,16 @@ output [31:0] modulate_signal_out = 0;
 
 always @ (posedge clk) begin
     if (rst) begin
-        modulate_signal_out <= 1'b0;
+        signal_out <= 1'b0;
+    end
+    else begin
+        case (signal_in) 
+            0 : signal_out = 32'b00001011111001100000001011011001; // 1 + 1j
+            1 : signal_out = 32'b00001011111001100000001011011001; // 1 + -1j
+            2 : signal_out = 32'b00001011111001100000001011011001; // -1 + 1j
+            3 : signal_out = 32'b00001011111001100000001011011001; // -1 + -1j
+            default : signal_out = a; 
+        endcase 
     end
 end
 
@@ -34,27 +43,27 @@ endmodule;
 
 // QAM 4
 
-module QAM4(
-    input clk,
-    input [1:0] signal_in,
-    output [1:0] signal_out
-);
+// module QAM4(
+//     input clk,
+//     input [1:0] signal_in,
+//     output [1:0] signal_out
+// );
 
-always @ (posedge clk) begin
-    if (rst) begin
-        signal_out <= 1'b0;
-    end
-    else begin
-        case (signal_in) 
-            0 : signal_out = a; // 1 + 1j
-            1 : signal_out = b; // 1 + -1j
-            2 : signal_out = c; // -1 + 1j
-            3 : signal_out = d; // -1 + -1j
-            default : $display("Error in SEL"); 
-        endcase 
-    end
-end
+// always @ (posedge clk) begin
+//     if (rst) begin
+//         signal_out <= 1'b0;
+//     end
+//     else begin
+//         case (signal_in) 
+//             0 : signal_out = a; // 1 + 1j
+//             1 : signal_out = b; // 1 + -1j
+//             2 : signal_out = c; // -1 + 1j
+//             3 : signal_out = d; // -1 + -1j
+//             default : $display("Error in SEL"); 
+//         endcase 
+//     end
+// end
 
-// QAM 4
+// // QAM 4
 
-endmodule
+// endmodule

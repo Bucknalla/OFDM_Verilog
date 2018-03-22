@@ -42,7 +42,7 @@ module fft_tb();
     wire event_tlast_missing;
     wire event_tlast_unexpected;
     
-    ifft ifft_i (
+    fft ifft_i (
         .M_AXIS_DATA_tdata(M_AXIS_DATA_tdata),
         .M_AXIS_DATA_tlast(M_AXIS_DATA_tlast),
         .M_AXIS_DATA_tready(M_AXIS_DATA_tready),

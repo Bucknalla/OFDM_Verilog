@@ -181,13 +181,6 @@ CONFIG.TUSER_WIDTH {0} \
   # Create instance: QAM_Modulator_0, and set properties
   set QAM_Modulator_0 [ create_bd_cell -type ip -vlnv user.org:user:QAM_Modulator:0.1 QAM_Modulator_0 ]
 
-  # Create instance: axi_mem_intercon, and set properties
-  set axi_mem_intercon [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_interconnect:2.1 axi_mem_intercon ]
-  set_property -dict [ list \
-CONFIG.NUM_MI {1} \
-CONFIG.NUM_SI {3} \
- ] $axi_mem_intercon
-
   # Create instance: processing_system7_0, and set properties
   set processing_system7_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:processing_system7:5.5 processing_system7_0 ]
   set_property -dict [ list \
@@ -1491,7 +1484,6 @@ CONFIG.number_of_stages_using_block_ram_for_data_and_phase_factors.VALUE_SRC {DE
   connect_bd_intf_net -intf_net Pilot_Insertion_0_M00_AXIS [get_bd_intf_pins Pilot_Insertion_0/M00_AXIS] [get_bd_intf_pins xfft_0/S_AXIS_DATA]
   connect_bd_intf_net -intf_net QAM_Modulator_0_M00_AXIS [get_bd_intf_pins Pilot_Insertion_0/S00_AXIS] [get_bd_intf_pins QAM_Modulator_0/M00_AXIS]
   connect_bd_intf_net -intf_net S00_AXIS_1 [get_bd_intf_ports S00_AXIS] [get_bd_intf_pins QAM_Modulator_0/S00_AXIS]
-  connect_bd_intf_net -intf_net axi_mem_intercon_M00_AXI [get_bd_intf_pins axi_mem_intercon/M00_AXI] [get_bd_intf_pins processing_system7_0/S_AXI_HP0]
   connect_bd_intf_net -intf_net processing_system7_0_DDR [get_bd_intf_ports DDR] [get_bd_intf_pins processing_system7_0/DDR]
   connect_bd_intf_net -intf_net processing_system7_0_FIXED_IO [get_bd_intf_ports FIXED_IO] [get_bd_intf_pins processing_system7_0/FIXED_IO]
   connect_bd_intf_net -intf_net processing_system7_0_M_AXI_GP0 [get_bd_intf_pins processing_system7_0/M_AXI_GP0] [get_bd_intf_pins ps7_0_axi_periph/S00_AXI]
@@ -1501,10 +1493,10 @@ CONFIG.number_of_stages_using_block_ram_for_data_and_phase_factors.VALUE_SRC {DE
   connect_bd_intf_net -intf_net xfft_0_M_AXIS_DATA [get_bd_intf_pins Cyclic_Prefix_0/S00_AXIS] [get_bd_intf_pins xfft_0/M_AXIS_DATA]
 
   # Create port connections
-  connect_bd_net -net processing_system7_0_FCLK_CLK0 [get_bd_pins Cyclic_Prefix_0/aclk] [get_bd_pins Pilot_Insertion_0/m00_axis_aclk] [get_bd_pins Pilot_Insertion_0/s00_axi_aclk] [get_bd_pins Pilot_Insertion_0/s00_axis_aclk] [get_bd_pins QAM_Modulator_0/m00_axis_aclk] [get_bd_pins QAM_Modulator_0/s00_axi_aclk] [get_bd_pins QAM_Modulator_0/s00_axis_aclk] [get_bd_pins axi_mem_intercon/ACLK] [get_bd_pins axi_mem_intercon/M00_ACLK] [get_bd_pins axi_mem_intercon/S00_ACLK] [get_bd_pins axi_mem_intercon/S01_ACLK] [get_bd_pins axi_mem_intercon/S02_ACLK] [get_bd_pins processing_system7_0/FCLK_CLK0] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK] [get_bd_pins processing_system7_0/S_AXI_HP0_ACLK] [get_bd_pins ps7_0_axi_periph/ACLK] [get_bd_pins ps7_0_axi_periph/M00_ACLK] [get_bd_pins ps7_0_axi_periph/M01_ACLK] [get_bd_pins ps7_0_axi_periph/M02_ACLK] [get_bd_pins ps7_0_axi_periph/M03_ACLK] [get_bd_pins ps7_0_axi_periph/S00_ACLK] [get_bd_pins rst_ps7_0_50M/slowest_sync_clk] [get_bd_pins xfft_0/aclk]
+  connect_bd_net -net processing_system7_0_FCLK_CLK0 [get_bd_pins Cyclic_Prefix_0/aclk] [get_bd_pins Pilot_Insertion_0/m00_axis_aclk] [get_bd_pins Pilot_Insertion_0/s00_axi_aclk] [get_bd_pins Pilot_Insertion_0/s00_axis_aclk] [get_bd_pins QAM_Modulator_0/m00_axis_aclk] [get_bd_pins QAM_Modulator_0/s00_axi_aclk] [get_bd_pins QAM_Modulator_0/s00_axis_aclk] [get_bd_pins processing_system7_0/FCLK_CLK0] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK] [get_bd_pins processing_system7_0/S_AXI_HP0_ACLK] [get_bd_pins ps7_0_axi_periph/ACLK] [get_bd_pins ps7_0_axi_periph/M00_ACLK] [get_bd_pins ps7_0_axi_periph/M01_ACLK] [get_bd_pins ps7_0_axi_periph/M02_ACLK] [get_bd_pins ps7_0_axi_periph/M03_ACLK] [get_bd_pins ps7_0_axi_periph/S00_ACLK] [get_bd_pins rst_ps7_0_50M/slowest_sync_clk] [get_bd_pins xfft_0/aclk]
   connect_bd_net -net processing_system7_0_FCLK_RESET0_N [get_bd_pins processing_system7_0/FCLK_RESET0_N] [get_bd_pins rst_ps7_0_50M/ext_reset_in]
-  connect_bd_net -net rst_ps7_0_50M_interconnect_aresetn [get_bd_pins axi_mem_intercon/ARESETN] [get_bd_pins ps7_0_axi_periph/ARESETN] [get_bd_pins rst_ps7_0_50M/interconnect_aresetn]
-  connect_bd_net -net rst_ps7_0_50M_peripheral_aresetn [get_bd_pins Cyclic_Prefix_0/aresetn] [get_bd_pins Pilot_Insertion_0/m00_axis_aresetn] [get_bd_pins Pilot_Insertion_0/s00_axi_aresetn] [get_bd_pins Pilot_Insertion_0/s00_axis_aresetn] [get_bd_pins QAM_Modulator_0/m00_axis_aresetn] [get_bd_pins QAM_Modulator_0/s00_axi_aresetn] [get_bd_pins QAM_Modulator_0/s00_axis_aresetn] [get_bd_pins axi_mem_intercon/M00_ARESETN] [get_bd_pins axi_mem_intercon/S00_ARESETN] [get_bd_pins axi_mem_intercon/S01_ARESETN] [get_bd_pins axi_mem_intercon/S02_ARESETN] [get_bd_pins ps7_0_axi_periph/M00_ARESETN] [get_bd_pins ps7_0_axi_periph/M01_ARESETN] [get_bd_pins ps7_0_axi_periph/M02_ARESETN] [get_bd_pins ps7_0_axi_periph/M03_ARESETN] [get_bd_pins ps7_0_axi_periph/S00_ARESETN] [get_bd_pins rst_ps7_0_50M/peripheral_aresetn] [get_bd_pins xfft_0/aresetn]
+  connect_bd_net -net rst_ps7_0_50M_interconnect_aresetn [get_bd_pins ps7_0_axi_periph/ARESETN] [get_bd_pins rst_ps7_0_50M/interconnect_aresetn]
+  connect_bd_net -net rst_ps7_0_50M_peripheral_aresetn [get_bd_pins Cyclic_Prefix_0/aresetn] [get_bd_pins Pilot_Insertion_0/m00_axis_aresetn] [get_bd_pins Pilot_Insertion_0/s00_axi_aresetn] [get_bd_pins Pilot_Insertion_0/s00_axis_aresetn] [get_bd_pins QAM_Modulator_0/m00_axis_aresetn] [get_bd_pins QAM_Modulator_0/s00_axi_aresetn] [get_bd_pins QAM_Modulator_0/s00_axis_aresetn] [get_bd_pins ps7_0_axi_periph/M00_ARESETN] [get_bd_pins ps7_0_axi_periph/M01_ARESETN] [get_bd_pins ps7_0_axi_periph/M02_ARESETN] [get_bd_pins ps7_0_axi_periph/M03_ARESETN] [get_bd_pins ps7_0_axi_periph/S00_ARESETN] [get_bd_pins rst_ps7_0_50M/peripheral_aresetn] [get_bd_pins xfft_0/aresetn]
 
   # Create address segments
   create_bd_addr_seg -range 0x00010000 -offset 0x43C00000 [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs Cyclic_Prefix_0/S00_AXI/S00_AXI_reg] SEG_Cyclic_Prefix_0_S00_AXI_reg
@@ -1525,25 +1517,23 @@ preplace inst QAM_Modulator_0 -pg 1 -lvl 4 -y 250 -defaultsOSRD
 preplace inst xfft_0 -pg 1 -lvl 6 -y 270 -defaultsOSRD
 preplace inst Cyclic_Prefix_0 -pg 1 -lvl 7 -y 270 -defaultsOSRD
 preplace inst ps7_0_axi_periph -pg 1 -lvl 3 -y -110 -defaultsOSRD
-preplace inst axi_mem_intercon -pg 1 -lvl 3 -y 230 -defaultsOSRD
 preplace inst processing_system7_0 -pg 1 -lvl 2 -y 480 -defaultsOSRD
-preplace netloc processing_system7_0_DDR 1 2 8 870J 430 1240J 400 NJ 400 NJ 400 NJ 400 NJ 400 NJ 400 N
-preplace netloc ps7_0_axi_periph_M02_AXI 1 3 1 1200
+preplace netloc processing_system7_0_DDR 1 2 8 NJ 400 NJ 400 NJ 400 NJ 400 NJ 400 NJ 400 NJ 400 N
 preplace netloc Cyclic_Prefix_0_M00_AXIS 1 7 3 NJ 250 NJ 250 N
-preplace netloc S00_AXIS_1 1 0 4 NJ 310 NJ 310 900J 410 1210J
-preplace netloc processing_system7_0_M_AXI_GP0 1 2 1 860
-preplace netloc Pilot_Insertion_0_M00_AXIS 1 5 1 1780
-preplace netloc processing_system7_0_FCLK_RESET0_N 1 1 2 240 320 840
-preplace netloc axi_mem_intercon_M00_AXI 1 1 3 240 350 890J 420 1200
-preplace netloc ps7_0_axi_periph_M01_AXI 1 3 2 NJ -120 1500
-preplace netloc xfft_0_M_AXIS_DATA 1 6 1 2150
-preplace netloc rst_ps7_0_50M_interconnect_aresetn 1 2 1 870
-preplace netloc QAM_Modulator_0_M00_AXIS 1 4 1 1500
-preplace netloc processing_system7_0_FIXED_IO 1 2 8 850J 440 NJ 440 NJ 440 NJ 440 NJ 440 NJ 440 NJ 440 2520J
-preplace netloc rst_ps7_0_50M_peripheral_aresetn 1 2 5 910 450 1230 450 1520 450 1790 450 2150
-preplace netloc processing_system7_0_FCLK_CLK0 1 1 6 230 130 880 540 1220 540 1510 540 1780 540 2160
-preplace netloc ps7_0_axi_periph_M00_AXI 1 3 4 NJ -140 NJ -140 NJ -140 2160
-levelinfo -pg 1 0 210 620 1060 1370 1650 1970 2290 2450 2500 2550 -top -310 -bot 700
+preplace netloc S00_AXIS_1 1 0 4 NJ 310 NJ 310 NJ 310 1190J
+preplace netloc ps7_0_axi_periph_M02_AXI 1 3 1 1190
+preplace netloc processing_system7_0_M_AXI_GP0 1 2 1 850
+preplace netloc Pilot_Insertion_0_M00_AXIS 1 5 1 1750
+preplace netloc processing_system7_0_FCLK_RESET0_N 1 1 2 70 320 840
+preplace netloc ps7_0_axi_periph_M01_AXI 1 3 2 NJ -120 1470
+preplace netloc xfft_0_M_AXIS_DATA 1 6 1 2180
+preplace netloc rst_ps7_0_50M_interconnect_aresetn 1 2 1 860
+preplace netloc QAM_Modulator_0_M00_AXIS 1 4 1 1470
+preplace netloc processing_system7_0_FIXED_IO 1 2 8 NJ 420 NJ 420 NJ 420 NJ 420 NJ 420 NJ 420 NJ 420 NJ
+preplace netloc rst_ps7_0_50M_peripheral_aresetn 1 2 5 880 410 1210 410 1490 410 1750 410 2200
+preplace netloc processing_system7_0_FCLK_CLK0 1 1 6 60 130 870 130 1200 130 1480 130 1760 130 2190
+preplace netloc ps7_0_axi_periph_M00_AXI 1 3 4 NJ -140 NJ -140 NJ -140 2200
+levelinfo -pg 1 0 40 620 1050 1340 1620 1970 2320 2460 2510 2550 -top -310 -bot 700
 ",
 }
 

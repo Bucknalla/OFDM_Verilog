@@ -78,12 +78,12 @@
   "../../../bd/design_1/ipshared/c577/hdl/Pilot_Insertion_v0_1_M00_AXIS.v" \
   "../../../bd/design_1/ipshared/c577/hdl/Pilot_Insertion_v0_1.v" \
   "../../../bd/design_1/ip/design_1_Pilot_Insertion_0_0/sim/design_1_Pilot_Insertion_0_0.v" \
-  "../../../bd/design_1/ipshared/af0f/hdl/QAM_2.v" \
-  "../../../bd/design_1/ipshared/af0f/hdl/QAM_Top.v" \
-  "../../../bd/design_1/ipshared/af0f/hdl/QAM_Modulator_v0_1_S00_AXI.v" \
-  "../../../bd/design_1/ipshared/af0f/hdl/QAM_Modulator_v0_1_S00_AXIS.v" \
-  "../../../bd/design_1/ipshared/af0f/hdl/QAM_Modulator_v0_1_M00_AXIS.v" \
-  "../../../bd/design_1/ipshared/af0f/hdl/QAM_Modulator_v0_1.v" \
+  "../../../bd/design_1/ipshared/9874/hdl/QAM_2.v" \
+  "../../../bd/design_1/ipshared/9874/hdl/QAM_Top.v" \
+  "../../../bd/design_1/ipshared/9874/hdl/QAM_Modulator_v0_1_S00_AXI.v" \
+  "../../../bd/design_1/ipshared/9874/hdl/QAM_Modulator_v0_1_S00_AXIS.v" \
+  "../../../bd/design_1/ipshared/9874/hdl/QAM_Modulator_v0_1_M00_AXIS.v" \
+  "../../../bd/design_1/ipshared/9874/hdl/QAM_Modulator_v0_1.v" \
   "../../../bd/design_1/ip/design_1_QAM_Modulator_0_0/sim/design_1_QAM_Modulator_0_0.v" \
 -endlib
 -makelib ies/processing_system7_bfm_v2_0_5 \
@@ -118,7 +118,7 @@
 -endlib
 -makelib ies/xil_defaultlib \
   "../../../bd/design_1/ip/design_1_xbar_0/sim/design_1_xbar_0.v" \
-  "../../../bd/design_1/ip/design_1_xbar_1/sim/design_1_xbar_1.v" \
+  "../../../bd/design_1/hdl/design_1.v" \
 -endlib
 -makelib ies/axi_protocol_converter_v2_1_11 \
   "../../../../ofdm_baseband.srcs/sources_1/bd/design_1/ipshared/df1b/hdl/axi_protocol_converter_v2_1_vl_rfs.v" \
@@ -128,8 +128,6 @@
   "../../../bd/design_1/ip/design_1_auto_pc_1/sim/design_1_auto_pc_1.v" \
   "../../../bd/design_1/ip/design_1_auto_pc_2/sim/design_1_auto_pc_2.v" \
   "../../../bd/design_1/ip/design_1_auto_pc_3/sim/design_1_auto_pc_3.v" \
-  "../../../bd/design_1/ip/design_1_auto_pc_4/sim/design_1_auto_pc_4.v" \
-  "../../../bd/design_1/hdl/design_1.v" \
 -endlib
 -makelib ies/xil_defaultlib \
   glbl.v

@@ -1,35 +1,29 @@
 {
    guistr: "# # String gsaved with Nlview 6.6.5b  2016-09-06 bk=1.3687 VDI=39 GEI=35 GUI=JA:1.6
 #  -string -flagsOSRD
-preplace port DDR -pg 1 -y 400 -defaultsOSRD
-preplace port S00_AXIS -pg 1 -y 310 -defaultsOSRD
-preplace port FIXED_IO -pg 1 -y 420 -defaultsOSRD
-preplace port M00_AXIS -pg 1 -y 250 -defaultsOSRD
-preplace inst rst_ps7_0_50M -pg 1 -lvl 2 -y 220 -defaultsOSRD
-preplace inst Pilot_Insertion_0 -pg 1 -lvl 5 -y 270 -defaultsOSRD
-preplace inst QAM_Modulator_0 -pg 1 -lvl 4 -y 250 -defaultsOSRD
-preplace inst xfft_0 -pg 1 -lvl 6 -y 270 -defaultsOSRD
-preplace inst Cyclic_Prefix_0 -pg 1 -lvl 7 -y 270 -defaultsOSRD
-preplace inst ps7_0_axi_periph -pg 1 -lvl 3 -y -110 -defaultsOSRD
-preplace inst axi_mem_intercon -pg 1 -lvl 3 -y 230 -defaultsOSRD
-preplace inst processing_system7_0 -pg 1 -lvl 2 -y 480 -defaultsOSRD
-preplace netloc processing_system7_0_DDR 1 2 8 870J 430 1240J 400 NJ 400 NJ 400 NJ 400 NJ 400 NJ 400 N
-preplace netloc ps7_0_axi_periph_M02_AXI 1 3 1 1200
-preplace netloc Cyclic_Prefix_0_M00_AXIS 1 7 3 NJ 250 NJ 250 N
-preplace netloc S00_AXIS_1 1 0 4 NJ 310 NJ 310 900J 410 1210J
-preplace netloc processing_system7_0_M_AXI_GP0 1 2 1 860
-preplace netloc Pilot_Insertion_0_M00_AXIS 1 5 1 1780
-preplace netloc processing_system7_0_FCLK_RESET0_N 1 1 2 240 320 840
-preplace netloc axi_mem_intercon_M00_AXI 1 1 3 240 350 890J 420 1200
-preplace netloc ps7_0_axi_periph_M01_AXI 1 3 2 NJ -120 1500
-preplace netloc xfft_0_M_AXIS_DATA 1 6 1 2150
-preplace netloc rst_ps7_0_50M_interconnect_aresetn 1 2 1 870
-preplace netloc QAM_Modulator_0_M00_AXIS 1 4 1 1500
-preplace netloc processing_system7_0_FIXED_IO 1 2 8 850J 440 NJ 440 NJ 440 NJ 440 NJ 440 NJ 440 NJ 440 2520J
-preplace netloc rst_ps7_0_50M_peripheral_aresetn 1 2 5 910 450 1230 450 1520 450 1790 450 2150
-preplace netloc processing_system7_0_FCLK_CLK0 1 1 6 230 130 880 540 1220 540 1510 540 1780 540 2160
-preplace netloc ps7_0_axi_periph_M00_AXI 1 3 4 NJ -140 NJ -140 NJ -140 2160
-levelinfo -pg 1 0 210 620 1060 1370 1650 1970 2290 2450 2500 2550 -top -310 -bot 700
+preplace port S00_AXIS -pg 1 -y 70 -defaultsOSRD
+preplace port M00_AXIS -pg 1 -y 100 -defaultsOSRD
+preplace inst pilot_insertion -pg 1 -lvl 2 -y 160 -defaultsOSRD
+preplace inst qam_modulator -pg 1 -lvl 1 -y 120 -defaultsOSRD
+preplace inst error_bus -pg 1 -lvl 5 -y 230 -defaultsOSRD
+preplace inst xfft_0 -pg 1 -lvl 3 -y 210 -defaultsOSRD
+preplace inst cyclic_prefix -pg 1 -lvl 4 -y 120 -defaultsOSRD
+preplace netloc Cyclic_Prefix_0_M00_AXIS 1 4 2 NJ 100 NJ
+preplace netloc S00_AXIS_1 1 0 1 N
+preplace netloc xfft_0_event_tlast_unexpected 1 3 2 1010J 210 N
+preplace netloc xfft_0_event_frame_started 1 3 2 1020J 200 1300
+preplace netloc xfft_0_event_data_out_channel_halt 1 3 2 NJ 270 1260
+preplace netloc Pilot_Insertion_0_M00_AXIS 1 2 1 N
+preplace netloc QAM_Modulator_0_error 1 1 4 290 10 NJ 10 NJ 10 1300J
+preplace netloc xfft_0_event_data_in_channel_halt 1 3 2 NJ 250 1270
+preplace netloc xfft_0_M_AXIS_DATA 1 3 1 1000
+preplace netloc QAM_Modulator_0_M00_AXIS 1 1 1 N
+preplace netloc xfft_0_event_status_channel_halt 1 3 2 NJ 230 1290
+preplace netloc xfft_0_event_tlast_missing 1 3 2 1000J 220 1300
+preplace netloc rst_ps7_0_50M_peripheral_aresetn 1 0 4 30 250 310 40 570 40 1010
+preplace netloc processing_system7_0_FCLK_CLK0 1 0 4 20 240 300 30 580 30 1020
+preplace netloc Cyclic_Prefix_0_error 1 4 1 1280
+levelinfo -pg 1 0 160 440 790 1150 1400 1510 -top 0 -bot 360
 ",
 }
 {

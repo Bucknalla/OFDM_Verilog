@@ -1,29 +1,41 @@
 {
    guistr: "# # String gsaved with Nlview 6.6.5b  2016-09-06 bk=1.3687 VDI=39 GEI=35 GUI=JA:1.6
 #  -string -flagsOSRD
-preplace port S00_AXIS -pg 1 -y 70 -defaultsOSRD
-preplace port M00_AXIS -pg 1 -y 100 -defaultsOSRD
-preplace inst pilot_insertion -pg 1 -lvl 2 -y 160 -defaultsOSRD
-preplace inst qam_modulator -pg 1 -lvl 1 -y 120 -defaultsOSRD
-preplace inst error_bus -pg 1 -lvl 5 -y 230 -defaultsOSRD
-preplace inst xfft_0 -pg 1 -lvl 3 -y 210 -defaultsOSRD
-preplace inst cyclic_prefix -pg 1 -lvl 4 -y 120 -defaultsOSRD
-preplace netloc Cyclic_Prefix_0_M00_AXIS 1 4 2 NJ 100 NJ
-preplace netloc S00_AXIS_1 1 0 1 N
-preplace netloc xfft_0_event_tlast_unexpected 1 3 2 1010J 210 N
-preplace netloc xfft_0_event_frame_started 1 3 2 1020J 200 1300
-preplace netloc xfft_0_event_data_out_channel_halt 1 3 2 NJ 270 1260
-preplace netloc Pilot_Insertion_0_M00_AXIS 1 2 1 N
-preplace netloc QAM_Modulator_0_error 1 1 4 290 10 NJ 10 NJ 10 1300J
-preplace netloc xfft_0_event_data_in_channel_halt 1 3 2 NJ 250 1270
-preplace netloc xfft_0_M_AXIS_DATA 1 3 1 1000
-preplace netloc QAM_Modulator_0_M00_AXIS 1 1 1 N
-preplace netloc xfft_0_event_status_channel_halt 1 3 2 NJ 230 1290
-preplace netloc xfft_0_event_tlast_missing 1 3 2 1000J 220 1300
-preplace netloc rst_ps7_0_50M_peripheral_aresetn 1 0 4 30 250 310 40 570 40 1010
-preplace netloc processing_system7_0_FCLK_CLK0 1 0 4 20 240 300 30 580 30 1020
-preplace netloc Cyclic_Prefix_0_error 1 4 1 1280
-levelinfo -pg 1 0 160 440 790 1150 1400 1510 -top 0 -bot 360
+preplace port RST -pg 1 -y -30 -defaultsOSRD
+preplace port CLK -pg 1 -y -80 -defaultsOSRD
+preplace port DATA_OUT_AXIS -pg 1 -y 330 -defaultsOSRD
+preplace port CONFIG_AXI_INTR -pg 1 -y 70 -defaultsOSRD
+preplace port CONFIG_AXI -pg 1 -y 50 -defaultsOSRD
+preplace port DATA_IN_AXIS -pg 1 -y 10 -defaultsOSRD
+preplace inst pilot_insertion -pg 1 -lvl 3 -y 130 -defaultsOSRD
+preplace inst qam_modulator -pg 1 -lvl 2 -y 190 -defaultsOSRD
+preplace inst error_bus -pg 1 -lvl 6 -y 200 -defaultsOSRD
+preplace inst ifft -pg 1 -lvl 4 -y 210 -defaultsOSRD
+preplace inst OFDM_Controller_0 -pg 1 -lvl 1 -y 220 -defaultsOSRD
+preplace inst cyclic_prefix -pg 1 -lvl 5 -y 350 -defaultsOSRD
+preplace netloc Cyclic_Prefix_0_M00_AXIS 1 5 2 NJ 330 NJ
+preplace netloc S00_AXIS_1 1 0 2 -10J 0 370J
+preplace netloc xfft_0_event_tlast_unexpected 1 4 2 NJ 190 1590J
+preplace netloc xfft_0_event_frame_started 1 4 2 NJ 170 1590J
+preplace netloc xfft_0_event_data_out_channel_halt 1 4 2 NJ 270 1590J
+preplace netloc Pilot_Insertion_0_M00_AXIS 1 3 1 960
+preplace netloc QAM_Modulator_0_error 1 2 4 660J 10 NJ 10 NJ 10 1590
+preplace netloc CONFIG_AXI_1 1 0 1 N
+preplace netloc OFDM_Controller_0_M02_AXI 1 1 4 350J 320 NJ 320 NJ 320 NJ
+preplace netloc OFDM_Controller_0_M00_AXI 1 1 1 N
+preplace netloc error_bus_dout 1 0 7 10 -20 NJ -20 NJ -20 NJ -20 NJ -20 NJ -20 1770
+preplace netloc xfft_0_event_data_in_channel_halt 1 4 2 NJ 250 1590J
+preplace netloc CONFIG_AXI_INTR_1 1 0 1 N
+preplace netloc OFDM_Controller_0_M01_AXI 1 1 2 350J 60 NJ
+preplace netloc xfft_0_M_AXIS_DATA 1 4 1 1350
+preplace netloc OFDM_Controller_0_M00_AXIS 1 1 3 340J 310 NJ 310 960
+preplace netloc QAM_Modulator_0_M00_AXIS 1 2 1 680
+preplace netloc xfft_0_event_status_channel_halt 1 4 2 NJ 230 1590J
+preplace netloc xfft_0_event_tlast_missing 1 4 2 NJ 210 1590J
+preplace netloc Net1 1 0 5 -20 -30 360 -30 670 -30 950 -30 1360
+preplace netloc processing_system7_0_FCLK_CLK0 1 0 5 0J -80 380 -80 690 -80 970 -80 1370J
+preplace netloc Cyclic_Prefix_0_error 1 5 1 1590
+levelinfo -pg 1 -40 180 530 820 1170 1480 1680 1790 -top -100 -bot 450
 ",
 }
 {

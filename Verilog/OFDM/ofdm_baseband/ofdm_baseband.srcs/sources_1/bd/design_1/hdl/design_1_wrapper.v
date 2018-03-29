@@ -1,8 +1,8 @@
 //Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2016.4 (lin64) Build 1756540 Mon Jan 23 19:11:19 MST 2017
-//Date        : Tue Mar 27 14:06:14 2018
-//Host        : alex-warc running 64-bit Ubuntu 16.04.4 LTS
+//Date        : Thu Mar 29 11:28:26 2018
+//Host        : Alex-Ubuntu running 64-bit Ubuntu 16.04.4 LTS
 //Command     : generate_target design_1_wrapper.bd
 //Design      : design_1_wrapper
 //Purpose     : IP block netlist
@@ -10,131 +10,207 @@
 `timescale 1 ps / 1 ps
 
 module design_1_wrapper
-   (DDR_addr,
-    DDR_ba,
-    DDR_cas_n,
-    DDR_ck_n,
-    DDR_ck_p,
-    DDR_cke,
-    DDR_cs_n,
-    DDR_dm,
-    DDR_dq,
-    DDR_dqs_n,
-    DDR_dqs_p,
-    DDR_odt,
-    DDR_ras_n,
-    DDR_reset_n,
-    DDR_we_n,
-    FIXED_IO_ddr_vrn,
-    FIXED_IO_ddr_vrp,
-    FIXED_IO_mio,
-    FIXED_IO_ps_clk,
-    FIXED_IO_ps_porb,
-    FIXED_IO_ps_srstb,
-    M00_AXIS_tdata,
-    M00_AXIS_tlast,
-    M00_AXIS_tready,
-    M00_AXIS_tstrb,
-    M00_AXIS_tvalid,
-    S00_AXIS_tdata,
-    S00_AXIS_tlast,
-    S00_AXIS_tready,
-    S00_AXIS_tstrb,
-    S00_AXIS_tvalid);
-  inout [14:0]DDR_addr;
-  inout [2:0]DDR_ba;
-  inout DDR_cas_n;
-  inout DDR_ck_n;
-  inout DDR_ck_p;
-  inout DDR_cke;
-  inout DDR_cs_n;
-  inout [3:0]DDR_dm;
-  inout [31:0]DDR_dq;
-  inout [3:0]DDR_dqs_n;
-  inout [3:0]DDR_dqs_p;
-  inout DDR_odt;
-  inout DDR_ras_n;
-  inout DDR_reset_n;
-  inout DDR_we_n;
-  inout FIXED_IO_ddr_vrn;
-  inout FIXED_IO_ddr_vrp;
-  inout [53:0]FIXED_IO_mio;
-  inout FIXED_IO_ps_clk;
-  inout FIXED_IO_ps_porb;
-  inout FIXED_IO_ps_srstb;
-  output [31:0]M00_AXIS_tdata;
-  output M00_AXIS_tlast;
-  input M00_AXIS_tready;
-  output [3:0]M00_AXIS_tstrb;
-  output M00_AXIS_tvalid;
-  input [31:0]S00_AXIS_tdata;
-  input S00_AXIS_tlast;
-  output S00_AXIS_tready;
-  input [3:0]S00_AXIS_tstrb;
-  input S00_AXIS_tvalid;
+   (CLK,
+    CONFIG_AXI_INTR_araddr,
+    CONFIG_AXI_INTR_arprot,
+    CONFIG_AXI_INTR_arready,
+    CONFIG_AXI_INTR_arvalid,
+    CONFIG_AXI_INTR_awaddr,
+    CONFIG_AXI_INTR_awprot,
+    CONFIG_AXI_INTR_awready,
+    CONFIG_AXI_INTR_awvalid,
+    CONFIG_AXI_INTR_bready,
+    CONFIG_AXI_INTR_bresp,
+    CONFIG_AXI_INTR_bvalid,
+    CONFIG_AXI_INTR_rdata,
+    CONFIG_AXI_INTR_rready,
+    CONFIG_AXI_INTR_rresp,
+    CONFIG_AXI_INTR_rvalid,
+    CONFIG_AXI_INTR_wdata,
+    CONFIG_AXI_INTR_wready,
+    CONFIG_AXI_INTR_wstrb,
+    CONFIG_AXI_INTR_wvalid,
+    CONFIG_AXI_araddr,
+    CONFIG_AXI_arprot,
+    CONFIG_AXI_arready,
+    CONFIG_AXI_arvalid,
+    CONFIG_AXI_awaddr,
+    CONFIG_AXI_awprot,
+    CONFIG_AXI_awready,
+    CONFIG_AXI_awvalid,
+    CONFIG_AXI_bready,
+    CONFIG_AXI_bresp,
+    CONFIG_AXI_bvalid,
+    CONFIG_AXI_rdata,
+    CONFIG_AXI_rready,
+    CONFIG_AXI_rresp,
+    CONFIG_AXI_rvalid,
+    CONFIG_AXI_wdata,
+    CONFIG_AXI_wready,
+    CONFIG_AXI_wstrb,
+    CONFIG_AXI_wvalid,
+    DATA_IN_AXIS_tdata,
+    DATA_IN_AXIS_tlast,
+    DATA_IN_AXIS_tready,
+    DATA_IN_AXIS_tstrb,
+    DATA_IN_AXIS_tvalid,
+    DATA_OUT_AXIS_tdata,
+    DATA_OUT_AXIS_tlast,
+    DATA_OUT_AXIS_tready,
+    DATA_OUT_AXIS_tstrb,
+    DATA_OUT_AXIS_tvalid,
+    RST);
+  input CLK;
+  input [4:0]CONFIG_AXI_INTR_araddr;
+  input [2:0]CONFIG_AXI_INTR_arprot;
+  output CONFIG_AXI_INTR_arready;
+  input CONFIG_AXI_INTR_arvalid;
+  input [4:0]CONFIG_AXI_INTR_awaddr;
+  input [2:0]CONFIG_AXI_INTR_awprot;
+  output CONFIG_AXI_INTR_awready;
+  input CONFIG_AXI_INTR_awvalid;
+  input CONFIG_AXI_INTR_bready;
+  output [1:0]CONFIG_AXI_INTR_bresp;
+  output CONFIG_AXI_INTR_bvalid;
+  output [31:0]CONFIG_AXI_INTR_rdata;
+  input CONFIG_AXI_INTR_rready;
+  output [1:0]CONFIG_AXI_INTR_rresp;
+  output CONFIG_AXI_INTR_rvalid;
+  input [31:0]CONFIG_AXI_INTR_wdata;
+  output CONFIG_AXI_INTR_wready;
+  input [3:0]CONFIG_AXI_INTR_wstrb;
+  input CONFIG_AXI_INTR_wvalid;
+  input [5:0]CONFIG_AXI_araddr;
+  input [2:0]CONFIG_AXI_arprot;
+  output CONFIG_AXI_arready;
+  input CONFIG_AXI_arvalid;
+  input [5:0]CONFIG_AXI_awaddr;
+  input [2:0]CONFIG_AXI_awprot;
+  output CONFIG_AXI_awready;
+  input CONFIG_AXI_awvalid;
+  input CONFIG_AXI_bready;
+  output [1:0]CONFIG_AXI_bresp;
+  output CONFIG_AXI_bvalid;
+  output [31:0]CONFIG_AXI_rdata;
+  input CONFIG_AXI_rready;
+  output [1:0]CONFIG_AXI_rresp;
+  output CONFIG_AXI_rvalid;
+  input [31:0]CONFIG_AXI_wdata;
+  output CONFIG_AXI_wready;
+  input [3:0]CONFIG_AXI_wstrb;
+  input CONFIG_AXI_wvalid;
+  input [31:0]DATA_IN_AXIS_tdata;
+  input DATA_IN_AXIS_tlast;
+  output DATA_IN_AXIS_tready;
+  input [3:0]DATA_IN_AXIS_tstrb;
+  input DATA_IN_AXIS_tvalid;
+  output [31:0]DATA_OUT_AXIS_tdata;
+  output DATA_OUT_AXIS_tlast;
+  input DATA_OUT_AXIS_tready;
+  output [3:0]DATA_OUT_AXIS_tstrb;
+  output DATA_OUT_AXIS_tvalid;
+  input RST;
 
-  wire [14:0]DDR_addr;
-  wire [2:0]DDR_ba;
-  wire DDR_cas_n;
-  wire DDR_ck_n;
-  wire DDR_ck_p;
-  wire DDR_cke;
-  wire DDR_cs_n;
-  wire [3:0]DDR_dm;
-  wire [31:0]DDR_dq;
-  wire [3:0]DDR_dqs_n;
-  wire [3:0]DDR_dqs_p;
-  wire DDR_odt;
-  wire DDR_ras_n;
-  wire DDR_reset_n;
-  wire DDR_we_n;
-  wire FIXED_IO_ddr_vrn;
-  wire FIXED_IO_ddr_vrp;
-  wire [53:0]FIXED_IO_mio;
-  wire FIXED_IO_ps_clk;
-  wire FIXED_IO_ps_porb;
-  wire FIXED_IO_ps_srstb;
-  wire [31:0]M00_AXIS_tdata;
-  wire M00_AXIS_tlast;
-  wire M00_AXIS_tready;
-  wire [3:0]M00_AXIS_tstrb;
-  wire M00_AXIS_tvalid;
-  wire [31:0]S00_AXIS_tdata;
-  wire S00_AXIS_tlast;
-  wire S00_AXIS_tready;
-  wire [3:0]S00_AXIS_tstrb;
-  wire S00_AXIS_tvalid;
+  wire CLK;
+  wire [4:0]CONFIG_AXI_INTR_araddr;
+  wire [2:0]CONFIG_AXI_INTR_arprot;
+  wire CONFIG_AXI_INTR_arready;
+  wire CONFIG_AXI_INTR_arvalid;
+  wire [4:0]CONFIG_AXI_INTR_awaddr;
+  wire [2:0]CONFIG_AXI_INTR_awprot;
+  wire CONFIG_AXI_INTR_awready;
+  wire CONFIG_AXI_INTR_awvalid;
+  wire CONFIG_AXI_INTR_bready;
+  wire [1:0]CONFIG_AXI_INTR_bresp;
+  wire CONFIG_AXI_INTR_bvalid;
+  wire [31:0]CONFIG_AXI_INTR_rdata;
+  wire CONFIG_AXI_INTR_rready;
+  wire [1:0]CONFIG_AXI_INTR_rresp;
+  wire CONFIG_AXI_INTR_rvalid;
+  wire [31:0]CONFIG_AXI_INTR_wdata;
+  wire CONFIG_AXI_INTR_wready;
+  wire [3:0]CONFIG_AXI_INTR_wstrb;
+  wire CONFIG_AXI_INTR_wvalid;
+  wire [5:0]CONFIG_AXI_araddr;
+  wire [2:0]CONFIG_AXI_arprot;
+  wire CONFIG_AXI_arready;
+  wire CONFIG_AXI_arvalid;
+  wire [5:0]CONFIG_AXI_awaddr;
+  wire [2:0]CONFIG_AXI_awprot;
+  wire CONFIG_AXI_awready;
+  wire CONFIG_AXI_awvalid;
+  wire CONFIG_AXI_bready;
+  wire [1:0]CONFIG_AXI_bresp;
+  wire CONFIG_AXI_bvalid;
+  wire [31:0]CONFIG_AXI_rdata;
+  wire CONFIG_AXI_rready;
+  wire [1:0]CONFIG_AXI_rresp;
+  wire CONFIG_AXI_rvalid;
+  wire [31:0]CONFIG_AXI_wdata;
+  wire CONFIG_AXI_wready;
+  wire [3:0]CONFIG_AXI_wstrb;
+  wire CONFIG_AXI_wvalid;
+  wire [31:0]DATA_IN_AXIS_tdata;
+  wire DATA_IN_AXIS_tlast;
+  wire DATA_IN_AXIS_tready;
+  wire [3:0]DATA_IN_AXIS_tstrb;
+  wire DATA_IN_AXIS_tvalid;
+  wire [31:0]DATA_OUT_AXIS_tdata;
+  wire DATA_OUT_AXIS_tlast;
+  wire DATA_OUT_AXIS_tready;
+  wire [3:0]DATA_OUT_AXIS_tstrb;
+  wire DATA_OUT_AXIS_tvalid;
+  wire RST;
 
   design_1 design_1_i
-       (.DDR_addr(DDR_addr),
-        .DDR_ba(DDR_ba),
-        .DDR_cas_n(DDR_cas_n),
-        .DDR_ck_n(DDR_ck_n),
-        .DDR_ck_p(DDR_ck_p),
-        .DDR_cke(DDR_cke),
-        .DDR_cs_n(DDR_cs_n),
-        .DDR_dm(DDR_dm),
-        .DDR_dq(DDR_dq),
-        .DDR_dqs_n(DDR_dqs_n),
-        .DDR_dqs_p(DDR_dqs_p),
-        .DDR_odt(DDR_odt),
-        .DDR_ras_n(DDR_ras_n),
-        .DDR_reset_n(DDR_reset_n),
-        .DDR_we_n(DDR_we_n),
-        .FIXED_IO_ddr_vrn(FIXED_IO_ddr_vrn),
-        .FIXED_IO_ddr_vrp(FIXED_IO_ddr_vrp),
-        .FIXED_IO_mio(FIXED_IO_mio),
-        .FIXED_IO_ps_clk(FIXED_IO_ps_clk),
-        .FIXED_IO_ps_porb(FIXED_IO_ps_porb),
-        .FIXED_IO_ps_srstb(FIXED_IO_ps_srstb),
-        .M00_AXIS_tdata(M00_AXIS_tdata),
-        .M00_AXIS_tlast(M00_AXIS_tlast),
-        .M00_AXIS_tready(M00_AXIS_tready),
-        .M00_AXIS_tstrb(M00_AXIS_tstrb),
-        .M00_AXIS_tvalid(M00_AXIS_tvalid),
-        .S00_AXIS_tdata(S00_AXIS_tdata),
-        .S00_AXIS_tlast(S00_AXIS_tlast),
-        .S00_AXIS_tready(S00_AXIS_tready),
-        .S00_AXIS_tstrb(S00_AXIS_tstrb),
-        .S00_AXIS_tvalid(S00_AXIS_tvalid));
+       (.CLK(CLK),
+        .CONFIG_AXI_INTR_araddr(CONFIG_AXI_INTR_araddr),
+        .CONFIG_AXI_INTR_arprot(CONFIG_AXI_INTR_arprot),
+        .CONFIG_AXI_INTR_arready(CONFIG_AXI_INTR_arready),
+        .CONFIG_AXI_INTR_arvalid(CONFIG_AXI_INTR_arvalid),
+        .CONFIG_AXI_INTR_awaddr(CONFIG_AXI_INTR_awaddr),
+        .CONFIG_AXI_INTR_awprot(CONFIG_AXI_INTR_awprot),
+        .CONFIG_AXI_INTR_awready(CONFIG_AXI_INTR_awready),
+        .CONFIG_AXI_INTR_awvalid(CONFIG_AXI_INTR_awvalid),
+        .CONFIG_AXI_INTR_bready(CONFIG_AXI_INTR_bready),
+        .CONFIG_AXI_INTR_bresp(CONFIG_AXI_INTR_bresp),
+        .CONFIG_AXI_INTR_bvalid(CONFIG_AXI_INTR_bvalid),
+        .CONFIG_AXI_INTR_rdata(CONFIG_AXI_INTR_rdata),
+        .CONFIG_AXI_INTR_rready(CONFIG_AXI_INTR_rready),
+        .CONFIG_AXI_INTR_rresp(CONFIG_AXI_INTR_rresp),
+        .CONFIG_AXI_INTR_rvalid(CONFIG_AXI_INTR_rvalid),
+        .CONFIG_AXI_INTR_wdata(CONFIG_AXI_INTR_wdata),
+        .CONFIG_AXI_INTR_wready(CONFIG_AXI_INTR_wready),
+        .CONFIG_AXI_INTR_wstrb(CONFIG_AXI_INTR_wstrb),
+        .CONFIG_AXI_INTR_wvalid(CONFIG_AXI_INTR_wvalid),
+        .CONFIG_AXI_araddr(CONFIG_AXI_araddr),
+        .CONFIG_AXI_arprot(CONFIG_AXI_arprot),
+        .CONFIG_AXI_arready(CONFIG_AXI_arready),
+        .CONFIG_AXI_arvalid(CONFIG_AXI_arvalid),
+        .CONFIG_AXI_awaddr(CONFIG_AXI_awaddr),
+        .CONFIG_AXI_awprot(CONFIG_AXI_awprot),
+        .CONFIG_AXI_awready(CONFIG_AXI_awready),
+        .CONFIG_AXI_awvalid(CONFIG_AXI_awvalid),
+        .CONFIG_AXI_bready(CONFIG_AXI_bready),
+        .CONFIG_AXI_bresp(CONFIG_AXI_bresp),
+        .CONFIG_AXI_bvalid(CONFIG_AXI_bvalid),
+        .CONFIG_AXI_rdata(CONFIG_AXI_rdata),
+        .CONFIG_AXI_rready(CONFIG_AXI_rready),
+        .CONFIG_AXI_rresp(CONFIG_AXI_rresp),
+        .CONFIG_AXI_rvalid(CONFIG_AXI_rvalid),
+        .CONFIG_AXI_wdata(CONFIG_AXI_wdata),
+        .CONFIG_AXI_wready(CONFIG_AXI_wready),
+        .CONFIG_AXI_wstrb(CONFIG_AXI_wstrb),
+        .CONFIG_AXI_wvalid(CONFIG_AXI_wvalid),
+        .DATA_IN_AXIS_tdata(DATA_IN_AXIS_tdata),
+        .DATA_IN_AXIS_tlast(DATA_IN_AXIS_tlast),
+        .DATA_IN_AXIS_tready(DATA_IN_AXIS_tready),
+        .DATA_IN_AXIS_tstrb(DATA_IN_AXIS_tstrb),
+        .DATA_IN_AXIS_tvalid(DATA_IN_AXIS_tvalid),
+        .DATA_OUT_AXIS_tdata(DATA_OUT_AXIS_tdata),
+        .DATA_OUT_AXIS_tlast(DATA_OUT_AXIS_tlast),
+        .DATA_OUT_AXIS_tready(DATA_OUT_AXIS_tready),
+        .DATA_OUT_AXIS_tstrb(DATA_OUT_AXIS_tstrb),
+        .DATA_OUT_AXIS_tvalid(DATA_OUT_AXIS_tvalid),
+        .RST(RST));
 endmodule

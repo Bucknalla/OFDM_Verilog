@@ -300,15 +300,15 @@ CONFIG.NUM_PORTS {4} \
   regenerate_bd_layout -layout_string {
    guistr: "# # String gsaved with Nlview 6.6.5b  2016-09-06 bk=1.3687 VDI=39 GEI=35 GUI=JA:1.6
 #  -string -flagsOSRD
-preplace port CLK -pg 1 -y 220 -defaultsOSRD
 preplace port RST -pg 1 -y 240 -defaultsOSRD
+preplace port CLK -pg 1 -y 220 -defaultsOSRD
 preplace port DATA_OUT_AXIS -pg 1 -y 420 -defaultsOSRD
 preplace port CONFIG_AXI -pg 1 -y 200 -defaultsOSRD
 preplace port DATA_IN_AXIS -pg 1 -y 120 -defaultsOSRD
 preplace portBus STATUS -pg 1 -y 300 -defaultsOSRD
 preplace portBus ERROR -pg 1 -y 560 -defaultsOSRD
-preplace inst status_bus -pg 1 -lvl 7 -y 300 -defaultsOSRD
 preplace inst preamble -pg 1 -lvl 3 -y 120 -defaultsOSRD
+preplace inst status_bus -pg 1 -lvl 7 -y 300 -defaultsOSRD
 preplace inst pilot_insertion -pg 1 -lvl 4 -y 260 -defaultsOSRD
 preplace inst axi_interconnect -pg 1 -lvl 1 -y 340 -defaultsOSRD
 preplace inst qam_modulator -pg 1 -lvl 2 -y 170 -defaultsOSRD
@@ -319,29 +319,29 @@ preplace inst cyclic_prefix -pg 1 -lvl 6 -y 440 -defaultsOSRD
 preplace netloc Cyclic_Prefix_0_M00_AXIS 1 6 2 NJ 420 NJ
 preplace netloc S00_AXIS_1 1 0 2 NJ 120 NJ
 preplace netloc qam_modulator_M00_AXIS 1 2 1 610
-preplace netloc ifft_event_frame_started 1 5 2 1770 310 NJ
-preplace netloc xfft_0_event_tlast_unexpected 1 5 2 1770 570 2090J
+preplace netloc ifft_event_frame_started 1 5 2 1740 310 NJ
+preplace netloc xfft_0_event_tlast_unexpected 1 5 2 1740 570 2090J
 preplace netloc status_bus_dout 1 7 1 NJ
-preplace netloc xfft_0_event_data_out_channel_halt 1 5 2 1730 620 NJ
-preplace netloc Pilot_Insertion_0_M00_AXIS 1 4 1 1280
+preplace netloc xfft_0_event_data_out_channel_halt 1 5 2 1700 620 NJ
+preplace netloc Pilot_Insertion_0_M00_AXIS 1 4 1 1240
 preplace netloc Preamble_0_error 1 3 4 NJ 120 NJ 120 NJ 120 2100
 preplace netloc QAM_Modulator_0_error 1 2 5 610J 240 910J 130 NJ 130 NJ 130 2090
 preplace netloc axi_interconnect_0_M02_AXI 1 1 3 NJ 340 NJ 340 920
 preplace netloc error_bus_dout 1 7 1 NJ
 preplace netloc preamble_preamble_flag 1 3 4 NJ 140 NJ 140 NJ 140 2110
-preplace netloc xfft_0_event_data_in_channel_halt 1 5 2 1740 600 NJ
+preplace netloc xfft_0_event_data_in_channel_halt 1 5 2 1710 600 NJ
 preplace netloc cyclic_prefix_cp_flag 1 6 1 2080
-preplace netloc xfft_0_M_AXIS_DATA 1 5 1 1790
-preplace netloc axi_interconnect_0_M04_AXI 1 1 5 NJ 380 NJ 380 NJ 380 NJ 380 1760
+preplace netloc xfft_0_M_AXIS_DATA 1 5 1 1760
+preplace netloc axi_interconnect_0_M04_AXI 1 1 5 NJ 380 NJ 380 NJ 380 NJ 380 1730
 preplace netloc pilot_insertion_pilot_flag 1 4 3 N 260 NJ 260 2080J
 preplace netloc S00_AXI_1 1 0 1 NJ
-preplace netloc xfft_0_event_status_channel_halt 1 5 2 1750 580 NJ
-preplace netloc xfft_0_event_tlast_missing 1 5 2 1760 560 NJ
-preplace netloc FFT_Controller_0_M00_AXIS 1 4 1 N
+preplace netloc xfft_0_event_status_channel_halt 1 5 2 1720 580 NJ
+preplace netloc xfft_0_event_tlast_missing 1 5 2 1730 560 NJ
+preplace netloc FFT_Controller_0_M00_AXIS 1 4 1 1270
 preplace netloc axi_interconnect_0_M00_AXI 1 1 1 310
 preplace netloc axi_interconnect_0_M01_AXI 1 1 2 N 320 600J
-preplace netloc Net1 1 0 6 20 540 330 540 630 540 940 410 1300 350 1800
-preplace netloc processing_system7_0_FCLK_CLK0 1 0 6 30 140 320 390 620 390 930 390 1290 390 1780
+preplace netloc Net1 1 0 6 20 540 330 540 630 540 940 410 1260 350 1770
+preplace netloc processing_system7_0_FCLK_CLK0 1 0 6 30 140 320 390 620 390 930 390 1250 390 1750
 preplace netloc pilot_insertion_error 1 4 3 NJ 280 NJ 280 2070
 preplace netloc Cyclic_Prefix_0_error 1 6 1 2060
 preplace netloc axi_interconnect_0_M03_AXI 1 1 3 NJ 360 NJ 360 910

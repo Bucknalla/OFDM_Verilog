@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Wed Apr  4 16:59:53 2018" VIVADOVERSION="2016.4">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Thu Apr  5 15:28:45 2018" VIVADOVERSION="2016.4">
 
   <SYSTEMINFO ARCH="zynq" BOARD="digilentinc.com:zedboard:part0:1.0" DEVICE="7z020" NAME="design_1" PACKAGE="clg484" SPEEDGRADE="-1"/>
 
@@ -14,18 +14,50 @@
     <PORT DIR="O" NAME="DATA_OUT_AXIS_tlast" SIGIS="undef"/>
     <PORT DIR="O" NAME="DATA_OUT_AXIS_tvalid" SIGIS="undef"/>
     <PORT DIR="I" NAME="DATA_OUT_AXIS_tready" SIGIS="undef"/>
+    <PORT DIR="O" LEFT="3" NAME="STATUS" RIGHT="0" SIGIS="data" SIGNAME="status_bus_dout">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="status_bus" PORT="dout"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" LEFT="8" NAME="ERROR" RIGHT="0" SIGIS="data" SIGNAME="error_bus_dout">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="error_bus" PORT="dout"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT CLKFREQUENCY="100000000" DIR="I" NAME="CLK" SIGIS="clk" SIGNAME="External_Ports_CLK">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="ifft" PORT="aclk"/>
+        <CONNECTION INSTANCE="pilot_insertion" PORT="m00_axis_aclk"/>
+        <CONNECTION INSTANCE="pilot_insertion" PORT="s00_axis_aclk"/>
+        <CONNECTION INSTANCE="pilot_insertion" PORT="s00_axi_aclk"/>
+        <CONNECTION INSTANCE="ifft_controller" PORT="s00_axi_aclk"/>
+        <CONNECTION INSTANCE="ifft_controller" PORT="m00_axis_aclk"/>
+        <CONNECTION INSTANCE="axi_interconnect" PORT="ACLK"/>
+        <CONNECTION INSTANCE="axi_interconnect" PORT="S00_ACLK"/>
+        <CONNECTION INSTANCE="axi_interconnect" PORT="M00_ACLK"/>
+        <CONNECTION INSTANCE="axi_interconnect" PORT="M01_ACLK"/>
+        <CONNECTION INSTANCE="axi_interconnect" PORT="M02_ACLK"/>
+        <CONNECTION INSTANCE="axi_interconnect" PORT="M03_ACLK"/>
+        <CONNECTION INSTANCE="axi_interconnect" PORT="M04_ACLK"/>
+        <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_aclk"/>
+        <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axis_aclk"/>
+        <CONNECTION INSTANCE="cyclic_prefix" PORT="m00_axis_aclk"/>
+        <CONNECTION INSTANCE="preamble" PORT="m00_axis_aclk"/>
+        <CONNECTION INSTANCE="preamble" PORT="s00_axis_aclk"/>
+        <CONNECTION INSTANCE="preamble" PORT="s00_axi_aclk"/>
+        <CONNECTION INSTANCE="qam_modulator" PORT="s00_axi_aclk"/>
+        <CONNECTION INSTANCE="qam_modulator" PORT="s00_axis_aclk"/>
+        <CONNECTION INSTANCE="qam_modulator" PORT="m00_axis_aclk"/>
+      </CONNECTIONS>
+    </PORT>
     <PORT DIR="I" NAME="RST" SIGIS="undef" SIGNAME="External_Ports_RST">
       <CONNECTIONS>
         <CONNECTION INSTANCE="ifft" PORT="aresetn"/>
-        <CONNECTION INSTANCE="qam_modulator" PORT="s00_axi_aresetn"/>
-        <CONNECTION INSTANCE="qam_modulator" PORT="s00_axis_aresetn"/>
-        <CONNECTION INSTANCE="qam_modulator" PORT="m00_axis_aresetn"/>
         <CONNECTION INSTANCE="pilot_insertion" PORT="m00_axis_aresetn"/>
         <CONNECTION INSTANCE="pilot_insertion" PORT="s00_axis_aresetn"/>
         <CONNECTION INSTANCE="pilot_insertion" PORT="s00_axi_aresetn"/>
-        <CONNECTION INSTANCE="preamble" PORT="m00_axis_aresetn"/>
-        <CONNECTION INSTANCE="preamble" PORT="s00_axis_aresetn"/>
-        <CONNECTION INSTANCE="preamble" PORT="s00_axi_aresetn"/>
+        <CONNECTION INSTANCE="ifft_controller" PORT="s00_axi_aresetn"/>
+        <CONNECTION INSTANCE="ifft_controller" PORT="m00_axis_aresetn"/>
         <CONNECTION INSTANCE="axi_interconnect" PORT="ARESETN"/>
         <CONNECTION INSTANCE="axi_interconnect" PORT="M01_ARESETN"/>
         <CONNECTION INSTANCE="axi_interconnect" PORT="M00_ARESETN"/>
@@ -33,11 +65,15 @@
         <CONNECTION INSTANCE="axi_interconnect" PORT="M02_ARESETN"/>
         <CONNECTION INSTANCE="axi_interconnect" PORT="M03_ARESETN"/>
         <CONNECTION INSTANCE="axi_interconnect" PORT="M04_ARESETN"/>
-        <CONNECTION INSTANCE="cyclic_prefix" PORT="m00_axis_aresetn"/>
-        <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axis_aresetn"/>
         <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_aresetn"/>
-        <CONNECTION INSTANCE="ifft_controller" PORT="s00_axi_aresetn"/>
-        <CONNECTION INSTANCE="ifft_controller" PORT="m00_axis_aresetn"/>
+        <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axis_aresetn"/>
+        <CONNECTION INSTANCE="cyclic_prefix" PORT="m00_axis_aresetn"/>
+        <CONNECTION INSTANCE="preamble" PORT="m00_axis_aresetn"/>
+        <CONNECTION INSTANCE="preamble" PORT="s00_axis_aresetn"/>
+        <CONNECTION INSTANCE="preamble" PORT="s00_axi_aresetn"/>
+        <CONNECTION INSTANCE="qam_modulator" PORT="s00_axi_aresetn"/>
+        <CONNECTION INSTANCE="qam_modulator" PORT="s00_axis_aresetn"/>
+        <CONNECTION INSTANCE="qam_modulator" PORT="m00_axis_aresetn"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="I" LEFT="14" NAME="CONFIG_AXI_awaddr" RIGHT="0" SIGIS="undef"/>
@@ -59,42 +95,6 @@
     <PORT DIR="O" LEFT="1" NAME="CONFIG_AXI_rresp" RIGHT="0" SIGIS="undef"/>
     <PORT DIR="O" LEFT="0" NAME="CONFIG_AXI_rvalid" RIGHT="0" SIGIS="undef"/>
     <PORT DIR="I" LEFT="0" NAME="CONFIG_AXI_rready" RIGHT="0" SIGIS="undef"/>
-    <PORT CLKFREQUENCY="100000000" DIR="I" NAME="CLK" SIGIS="clk" SIGNAME="External_Ports_CLK">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="ifft" PORT="aclk"/>
-        <CONNECTION INSTANCE="qam_modulator" PORT="s00_axi_aclk"/>
-        <CONNECTION INSTANCE="qam_modulator" PORT="s00_axis_aclk"/>
-        <CONNECTION INSTANCE="qam_modulator" PORT="m00_axis_aclk"/>
-        <CONNECTION INSTANCE="pilot_insertion" PORT="m00_axis_aclk"/>
-        <CONNECTION INSTANCE="pilot_insertion" PORT="s00_axis_aclk"/>
-        <CONNECTION INSTANCE="pilot_insertion" PORT="s00_axi_aclk"/>
-        <CONNECTION INSTANCE="preamble" PORT="m00_axis_aclk"/>
-        <CONNECTION INSTANCE="preamble" PORT="s00_axis_aclk"/>
-        <CONNECTION INSTANCE="preamble" PORT="s00_axi_aclk"/>
-        <CONNECTION INSTANCE="axi_interconnect" PORT="ACLK"/>
-        <CONNECTION INSTANCE="axi_interconnect" PORT="S00_ACLK"/>
-        <CONNECTION INSTANCE="axi_interconnect" PORT="M00_ACLK"/>
-        <CONNECTION INSTANCE="axi_interconnect" PORT="M01_ACLK"/>
-        <CONNECTION INSTANCE="axi_interconnect" PORT="M02_ACLK"/>
-        <CONNECTION INSTANCE="axi_interconnect" PORT="M03_ACLK"/>
-        <CONNECTION INSTANCE="axi_interconnect" PORT="M04_ACLK"/>
-        <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_aclk"/>
-        <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axis_aclk"/>
-        <CONNECTION INSTANCE="cyclic_prefix" PORT="m00_axis_aclk"/>
-        <CONNECTION INSTANCE="ifft_controller" PORT="s00_axi_aclk"/>
-        <CONNECTION INSTANCE="ifft_controller" PORT="m00_axis_aclk"/>
-      </CONNECTIONS>
-    </PORT>
-    <PORT DIR="O" LEFT="3" NAME="STATUS" RIGHT="0" SIGIS="data" SIGNAME="status_bus_dout">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="status_bus" PORT="dout"/>
-      </CONNECTIONS>
-    </PORT>
-    <PORT DIR="O" LEFT="8" NAME="ERROR" RIGHT="0" SIGIS="data" SIGNAME="error_bus_dout">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="error_bus" PORT="dout"/>
-      </CONNECTIONS>
-    </PORT>
   </EXTERNALPORTS>
 
   <EXTERNALINTERFACES>
@@ -593,6 +593,16 @@
             <CONNECTION INSTANCE="External_Ports" PORT="RST"/>
           </CONNECTIONS>
         </PORT>
+        <PORT DIR="I" NAME="M04_ACLK" SIGIS="clk" SIGNAME="External_Ports_CLK">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="CLK"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M04_ARESETN" SIGIS="rst" SIGNAME="External_Ports_RST">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="RST"/>
+          </CONNECTIONS>
+        </PORT>
         <PORT DIR="O" LEFT="14" NAME="M00_AXI_awaddr" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M00_AXI_awaddr">
           <CONNECTIONS>
             <CONNECTION INSTANCE="qam_modulator" PORT="s00_axi_awaddr"/>
@@ -878,6 +888,101 @@
             <CONNECTION INSTANCE="pilot_insertion" PORT="s00_axi_rready"/>
           </CONNECTIONS>
         </PORT>
+        <PORT DIR="O" LEFT="14" NAME="M04_AXI_awaddr" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_awaddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_awaddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="M04_AXI_awprot" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_awprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_awprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M04_AXI_awvalid" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_awvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_awvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M04_AXI_awready" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_awready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_awready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="M04_AXI_wdata" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_wdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_wdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="3" NAME="M04_AXI_wstrb" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_wstrb">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_wstrb"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M04_AXI_wvalid" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_wvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_wvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M04_AXI_wready" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_wready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_wready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="1" NAME="M04_AXI_bresp" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_bresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_bresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M04_AXI_bvalid" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_bvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_bvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M04_AXI_bready" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_bready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_bready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="14" NAME="M04_AXI_araddr" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_araddr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_araddr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="2" NAME="M04_AXI_arprot" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_arprot">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_arprot"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M04_AXI_arvalid" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_arvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_arvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M04_AXI_arready" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_arready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_arready"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="M04_AXI_rdata" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_rdata">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_rdata"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="1" NAME="M04_AXI_rresp" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_rresp">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_rresp"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" NAME="M04_AXI_rvalid" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_rvalid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_rvalid"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="M04_AXI_rready" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_rready">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_rready"/>
+          </CONNECTIONS>
+        </PORT>
         <PORT DIR="O" LEFT="14" NAME="M03_AXI_awaddr" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M03_AXI_awaddr">
           <CONNECTIONS>
             <CONNECTION INSTANCE="ifft_controller" PORT="s00_axi_awaddr"/>
@@ -888,12 +993,12 @@
             <CONNECTION INSTANCE="ifft_controller" PORT="s00_axi_awprot"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="0" NAME="M03_AXI_awvalid" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M03_AXI_awvalid">
+        <PORT DIR="O" NAME="M03_AXI_awvalid" SIGIS="undef" SIGNAME="axi_interconnect_M03_AXI_awvalid">
           <CONNECTIONS>
             <CONNECTION INSTANCE="ifft_controller" PORT="s00_axi_awvalid"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="0" NAME="M03_AXI_awready" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M03_AXI_awready">
+        <PORT DIR="I" NAME="M03_AXI_awready" SIGIS="undef" SIGNAME="axi_interconnect_M03_AXI_awready">
           <CONNECTIONS>
             <CONNECTION INSTANCE="ifft_controller" PORT="s00_axi_awready"/>
           </CONNECTIONS>
@@ -908,12 +1013,12 @@
             <CONNECTION INSTANCE="ifft_controller" PORT="s00_axi_wstrb"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="0" NAME="M03_AXI_wvalid" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M03_AXI_wvalid">
+        <PORT DIR="O" NAME="M03_AXI_wvalid" SIGIS="undef" SIGNAME="axi_interconnect_M03_AXI_wvalid">
           <CONNECTIONS>
             <CONNECTION INSTANCE="ifft_controller" PORT="s00_axi_wvalid"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="0" NAME="M03_AXI_wready" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M03_AXI_wready">
+        <PORT DIR="I" NAME="M03_AXI_wready" SIGIS="undef" SIGNAME="axi_interconnect_M03_AXI_wready">
           <CONNECTIONS>
             <CONNECTION INSTANCE="ifft_controller" PORT="s00_axi_wready"/>
           </CONNECTIONS>
@@ -923,12 +1028,12 @@
             <CONNECTION INSTANCE="ifft_controller" PORT="s00_axi_bresp"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="0" NAME="M03_AXI_bvalid" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M03_AXI_bvalid">
+        <PORT DIR="I" NAME="M03_AXI_bvalid" SIGIS="undef" SIGNAME="axi_interconnect_M03_AXI_bvalid">
           <CONNECTIONS>
             <CONNECTION INSTANCE="ifft_controller" PORT="s00_axi_bvalid"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="0" NAME="M03_AXI_bready" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M03_AXI_bready">
+        <PORT DIR="O" NAME="M03_AXI_bready" SIGIS="undef" SIGNAME="axi_interconnect_M03_AXI_bready">
           <CONNECTIONS>
             <CONNECTION INSTANCE="ifft_controller" PORT="s00_axi_bready"/>
           </CONNECTIONS>
@@ -943,12 +1048,12 @@
             <CONNECTION INSTANCE="ifft_controller" PORT="s00_axi_arprot"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="0" NAME="M03_AXI_arvalid" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M03_AXI_arvalid">
+        <PORT DIR="O" NAME="M03_AXI_arvalid" SIGIS="undef" SIGNAME="axi_interconnect_M03_AXI_arvalid">
           <CONNECTIONS>
             <CONNECTION INSTANCE="ifft_controller" PORT="s00_axi_arvalid"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="0" NAME="M03_AXI_arready" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M03_AXI_arready">
+        <PORT DIR="I" NAME="M03_AXI_arready" SIGIS="undef" SIGNAME="axi_interconnect_M03_AXI_arready">
           <CONNECTIONS>
             <CONNECTION INSTANCE="ifft_controller" PORT="s00_axi_arready"/>
           </CONNECTIONS>
@@ -963,12 +1068,12 @@
             <CONNECTION INSTANCE="ifft_controller" PORT="s00_axi_rresp"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="I" LEFT="0" NAME="M03_AXI_rvalid" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M03_AXI_rvalid">
+        <PORT DIR="I" NAME="M03_AXI_rvalid" SIGIS="undef" SIGNAME="axi_interconnect_M03_AXI_rvalid">
           <CONNECTIONS>
             <CONNECTION INSTANCE="ifft_controller" PORT="s00_axi_rvalid"/>
           </CONNECTIONS>
         </PORT>
-        <PORT DIR="O" LEFT="0" NAME="M03_AXI_rready" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M03_AXI_rready">
+        <PORT DIR="O" NAME="M03_AXI_rready" SIGIS="undef" SIGNAME="axi_interconnect_M03_AXI_rready">
           <CONNECTIONS>
             <CONNECTION INSTANCE="ifft_controller" PORT="s00_axi_rready"/>
           </CONNECTIONS>
@@ -992,111 +1097,6 @@
         <PORT DIR="O" LEFT="1" NAME="S00_AXI_rresp" RIGHT="0" SIGIS="undef"/>
         <PORT DIR="O" LEFT="0" NAME="S00_AXI_rvalid" RIGHT="0" SIGIS="undef"/>
         <PORT DIR="I" LEFT="0" NAME="S00_AXI_rready" RIGHT="0" SIGIS="undef"/>
-        <PORT DIR="I" NAME="M04_ACLK" SIGIS="clk" SIGNAME="External_Ports_CLK">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="CLK"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" NAME="M04_ARESETN" SIGIS="rst" SIGNAME="External_Ports_RST">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="RST"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="14" NAME="M04_AXI_awaddr" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_awaddr">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_awaddr"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="2" NAME="M04_AXI_awprot" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_awprot">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_awprot"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="0" NAME="M04_AXI_awvalid" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_awvalid">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_awvalid"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="0" NAME="M04_AXI_awready" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_awready">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_awready"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="31" NAME="M04_AXI_wdata" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_wdata">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_wdata"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="3" NAME="M04_AXI_wstrb" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_wstrb">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_wstrb"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="0" NAME="M04_AXI_wvalid" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_wvalid">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_wvalid"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="0" NAME="M04_AXI_wready" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_wready">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_wready"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="1" NAME="M04_AXI_bresp" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_bresp">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_bresp"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="0" NAME="M04_AXI_bvalid" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_bvalid">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_bvalid"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="0" NAME="M04_AXI_bready" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_bready">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_bready"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="14" NAME="M04_AXI_araddr" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_araddr">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_araddr"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="2" NAME="M04_AXI_arprot" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_arprot">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_arprot"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="0" NAME="M04_AXI_arvalid" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_arvalid">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_arvalid"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="0" NAME="M04_AXI_arready" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_arready">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_arready"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="31" NAME="M04_AXI_rdata" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_rdata">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_rdata"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="1" NAME="M04_AXI_rresp" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_rresp">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_rresp"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="I" LEFT="0" NAME="M04_AXI_rvalid" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_rvalid">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_rvalid"/>
-          </CONNECTIONS>
-        </PORT>
-        <PORT DIR="O" LEFT="0" NAME="M04_AXI_rready" RIGHT="0" SIGIS="undef" SIGNAME="axi_interconnect_M04_AXI_rready">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="cyclic_prefix" PORT="s00_axi_rready"/>
-          </CONNECTIONS>
-        </PORT>
       </PORTS>
       <BUSINTERFACES>
         <BUSINTERFACE BUSNAME="External_Interface_CONFIG_AXI" DATAWIDTH="32" NAME="S00_AXI" TYPE="SLAVE" VLNV="xilinx.com:interface:aximm:1.0">

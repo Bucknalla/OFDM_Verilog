@@ -156,11 +156,12 @@ proc create_root_design { parentCell } {
   # Create interface ports
   set CONFIG_AXI [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 CONFIG_AXI ]
   set_property -dict [ list \
-CONFIG.ADDR_WIDTH {6} \
+CONFIG.ADDR_WIDTH {15} \
 CONFIG.ARUSER_WIDTH {0} \
 CONFIG.AWUSER_WIDTH {0} \
 CONFIG.BUSER_WIDTH {0} \
 CONFIG.DATA_WIDTH {32} \
+CONFIG.FREQ_HZ {100000000} \
 CONFIG.HAS_BRESP {1} \
 CONFIG.HAS_BURST {0} \
 CONFIG.HAS_CACHE {0} \
@@ -184,36 +185,6 @@ CONFIG.SUPPORTS_NARROW_BURST {0} \
 CONFIG.WUSER_BITS_PER_BYTE {0} \
 CONFIG.WUSER_WIDTH {0} \
  ] $CONFIG_AXI
-  set CONFIG_AXI_INTR [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 CONFIG_AXI_INTR ]
-  set_property -dict [ list \
-CONFIG.ADDR_WIDTH {5} \
-CONFIG.ARUSER_WIDTH {0} \
-CONFIG.AWUSER_WIDTH {0} \
-CONFIG.BUSER_WIDTH {0} \
-CONFIG.DATA_WIDTH {32} \
-CONFIG.HAS_BRESP {1} \
-CONFIG.HAS_BURST {0} \
-CONFIG.HAS_CACHE {0} \
-CONFIG.HAS_LOCK {0} \
-CONFIG.HAS_PROT {1} \
-CONFIG.HAS_QOS {0} \
-CONFIG.HAS_REGION {0} \
-CONFIG.HAS_RRESP {1} \
-CONFIG.HAS_WSTRB {1} \
-CONFIG.ID_WIDTH {0} \
-CONFIG.MAX_BURST_LENGTH {1} \
-CONFIG.NUM_READ_OUTSTANDING {1} \
-CONFIG.NUM_READ_THREADS {1} \
-CONFIG.NUM_WRITE_OUTSTANDING {1} \
-CONFIG.NUM_WRITE_THREADS {1} \
-CONFIG.PROTOCOL {AXI4LITE} \
-CONFIG.READ_WRITE_MODE {READ_WRITE} \
-CONFIG.RUSER_BITS_PER_BYTE {0} \
-CONFIG.RUSER_WIDTH {0} \
-CONFIG.SUPPORTS_NARROW_BURST {0} \
-CONFIG.WUSER_BITS_PER_BYTE {0} \
-CONFIG.WUSER_WIDTH {0} \
- ] $CONFIG_AXI_INTR
   set DATA_IN_AXIS [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:axis_rtl:1.0 DATA_IN_AXIS ]
   set_property -dict [ list \
 CONFIG.HAS_TKEEP {0} \
@@ -229,11 +200,19 @@ CONFIG.TUSER_WIDTH {0} \
   set DATA_OUT_AXIS [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 DATA_OUT_AXIS ]
 
   # Create ports
-  set CLK [ create_bd_port -dir I CLK ]
+  set CLK [ create_bd_port -dir I -type clk CLK ]
+  set_property -dict [ list \
+CONFIG.FREQ_HZ {100000000} \
+ ] $CLK
+  set ERROR [ create_bd_port -dir O -from 8 -to 0 -type data ERROR ]
   set RST [ create_bd_port -dir I RST ]
+  set STATUS [ create_bd_port -dir O -from 3 -to 0 -type data STATUS ]
 
-  # Create instance: OFDM_Controller_0, and set properties
-  set OFDM_Controller_0 [ create_bd_cell -type ip -vlnv user.org:user:OFDM_Controller:0.1 OFDM_Controller_0 ]
+  # Create instance: axi_interconnect, and set properties
+  set axi_interconnect [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_interconnect:2.1 axi_interconnect ]
+  set_property -dict [ list \
+CONFIG.NUM_MI {5} \
+ ] $axi_interconnect
 
   # Create instance: cyclic_prefix, and set properties
   set cyclic_prefix [ create_bd_cell -type ip -vlnv user.org:user:Cyclic_Prefix:0.1 cyclic_prefix ]
@@ -258,79 +237,116 @@ CONFIG.run_time_configurable_transform_length {true} \
 CONFIG.number_of_stages_using_block_ram_for_data_and_phase_factors.VALUE_SRC {DEFAULT} \
  ] $ifft
 
+  # Create instance: ifft_controller, and set properties
+  set ifft_controller [ create_bd_cell -type ip -vlnv user.org:user:FFT_Controller:0.1 ifft_controller ]
+
   # Create instance: pilot_insertion, and set properties
   set pilot_insertion [ create_bd_cell -type ip -vlnv user.org:user:Pilot_Insertion:0.1 pilot_insertion ]
+
+  # Create instance: preamble, and set properties
+  set preamble [ create_bd_cell -type ip -vlnv user.org:user:Preamble:0.1 preamble ]
 
   # Create instance: qam_modulator, and set properties
   set qam_modulator [ create_bd_cell -type ip -vlnv user.org:user:QAM_Modulator:0.1 qam_modulator ]
 
+  # Create instance: status_bus, and set properties
+  set status_bus [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat:2.1 status_bus ]
+  set_property -dict [ list \
+CONFIG.NUM_PORTS {4} \
+ ] $status_bus
+
   # Create interface connections
-  connect_bd_intf_net -intf_net CONFIG_AXI_1 [get_bd_intf_ports CONFIG_AXI] [get_bd_intf_pins OFDM_Controller_0/S00_AXI]
-  connect_bd_intf_net -intf_net CONFIG_AXI_INTR_1 [get_bd_intf_ports CONFIG_AXI_INTR] [get_bd_intf_pins OFDM_Controller_0/S_AXI_INTR]
   connect_bd_intf_net -intf_net Cyclic_Prefix_0_M00_AXIS [get_bd_intf_ports DATA_OUT_AXIS] [get_bd_intf_pins cyclic_prefix/M00_AXIS]
-  connect_bd_intf_net -intf_net OFDM_Controller_0_M00_AXI [get_bd_intf_pins OFDM_Controller_0/M00_AXI] [get_bd_intf_pins qam_modulator/S00_AXI]
-  connect_bd_intf_net -intf_net OFDM_Controller_0_M00_AXIS [get_bd_intf_pins OFDM_Controller_0/M00_AXIS] [get_bd_intf_pins ifft/S_AXIS_CONFIG]
-  connect_bd_intf_net -intf_net OFDM_Controller_0_M01_AXI [get_bd_intf_pins OFDM_Controller_0/M01_AXI] [get_bd_intf_pins pilot_insertion/S00_AXI]
-  connect_bd_intf_net -intf_net OFDM_Controller_0_M02_AXI [get_bd_intf_pins OFDM_Controller_0/M02_AXI] [get_bd_intf_pins cyclic_prefix/S00_AXI]
+  connect_bd_intf_net -intf_net FFT_Controller_0_M00_AXIS [get_bd_intf_pins ifft/S_AXIS_CONFIG] [get_bd_intf_pins ifft_controller/M00_AXIS]
   connect_bd_intf_net -intf_net Pilot_Insertion_0_M00_AXIS [get_bd_intf_pins ifft/S_AXIS_DATA] [get_bd_intf_pins pilot_insertion/M00_AXIS]
-  connect_bd_intf_net -intf_net QAM_Modulator_0_M00_AXIS [get_bd_intf_pins pilot_insertion/S00_AXIS] [get_bd_intf_pins qam_modulator/M00_AXIS]
+  connect_bd_intf_net -intf_net Preamble_0_M00_AXIS [get_bd_intf_pins pilot_insertion/S00_AXIS] [get_bd_intf_pins preamble/M00_AXIS]
   connect_bd_intf_net -intf_net S00_AXIS_1 [get_bd_intf_ports DATA_IN_AXIS] [get_bd_intf_pins qam_modulator/S00_AXIS]
+  connect_bd_intf_net -intf_net S00_AXI_1 [get_bd_intf_ports CONFIG_AXI] [get_bd_intf_pins axi_interconnect/S00_AXI]
+  connect_bd_intf_net -intf_net axi_interconnect_0_M00_AXI [get_bd_intf_pins axi_interconnect/M00_AXI] [get_bd_intf_pins qam_modulator/S00_AXI]
+  connect_bd_intf_net -intf_net axi_interconnect_0_M01_AXI [get_bd_intf_pins axi_interconnect/M01_AXI] [get_bd_intf_pins preamble/S00_AXI]
+  connect_bd_intf_net -intf_net axi_interconnect_0_M02_AXI [get_bd_intf_pins axi_interconnect/M02_AXI] [get_bd_intf_pins pilot_insertion/S00_AXI]
+  connect_bd_intf_net -intf_net axi_interconnect_0_M03_AXI [get_bd_intf_pins axi_interconnect/M03_AXI] [get_bd_intf_pins ifft_controller/S00_AXI]
+  connect_bd_intf_net -intf_net axi_interconnect_0_M04_AXI [get_bd_intf_pins axi_interconnect/M04_AXI] [get_bd_intf_pins cyclic_prefix/S00_AXI]
+  connect_bd_intf_net -intf_net qam_modulator_M00_AXIS [get_bd_intf_pins preamble/S00_AXIS] [get_bd_intf_pins qam_modulator/M00_AXIS]
   connect_bd_intf_net -intf_net xfft_0_M_AXIS_DATA [get_bd_intf_pins cyclic_prefix/S00_AXIS] [get_bd_intf_pins ifft/M_AXIS_DATA]
 
   # Create port connections
   connect_bd_net -net Cyclic_Prefix_0_error [get_bd_pins cyclic_prefix/error] [get_bd_pins error_bus/In8]
-  connect_bd_net -net Net1 [get_bd_ports RST] [get_bd_pins OFDM_Controller_0/m00_axi_aresetn] [get_bd_pins OFDM_Controller_0/m00_axis_aresetn] [get_bd_pins OFDM_Controller_0/m01_axi_aresetn] [get_bd_pins OFDM_Controller_0/m02_axi_aresetn] [get_bd_pins OFDM_Controller_0/s00_axi_aresetn] [get_bd_pins OFDM_Controller_0/s_axi_intr_aresetn] [get_bd_pins cyclic_prefix/aresetn] [get_bd_pins ifft/aresetn] [get_bd_pins pilot_insertion/m00_axis_aresetn] [get_bd_pins pilot_insertion/s00_axi_aresetn] [get_bd_pins pilot_insertion/s00_axis_aresetn] [get_bd_pins qam_modulator/m00_axis_aresetn] [get_bd_pins qam_modulator/s00_axi_aresetn] [get_bd_pins qam_modulator/s00_axis_aresetn]
+  connect_bd_net -net Net1 [get_bd_ports RST] [get_bd_pins axi_interconnect/ARESETN] [get_bd_pins axi_interconnect/M00_ARESETN] [get_bd_pins axi_interconnect/M01_ARESETN] [get_bd_pins axi_interconnect/M02_ARESETN] [get_bd_pins axi_interconnect/M03_ARESETN] [get_bd_pins axi_interconnect/M04_ARESETN] [get_bd_pins axi_interconnect/S00_ARESETN] [get_bd_pins cyclic_prefix/m00_axis_aresetn] [get_bd_pins cyclic_prefix/s00_axi_aresetn] [get_bd_pins cyclic_prefix/s00_axis_aresetn] [get_bd_pins ifft/aresetn] [get_bd_pins ifft_controller/m00_axis_aresetn] [get_bd_pins ifft_controller/s00_axi_aresetn] [get_bd_pins pilot_insertion/m00_axis_aresetn] [get_bd_pins pilot_insertion/s00_axi_aresetn] [get_bd_pins pilot_insertion/s00_axis_aresetn] [get_bd_pins preamble/m00_axis_aresetn] [get_bd_pins preamble/s00_axi_aresetn] [get_bd_pins preamble/s00_axis_aresetn] [get_bd_pins qam_modulator/m00_axis_aresetn] [get_bd_pins qam_modulator/s00_axi_aresetn] [get_bd_pins qam_modulator/s00_axis_aresetn]
+  connect_bd_net -net Preamble_0_error [get_bd_pins error_bus/In1] [get_bd_pins preamble/error]
   connect_bd_net -net QAM_Modulator_0_error [get_bd_pins error_bus/In0] [get_bd_pins qam_modulator/error]
-  connect_bd_net -net error_bus_dout [get_bd_pins OFDM_Controller_0/error_bus] [get_bd_pins error_bus/dout]
-  connect_bd_net -net processing_system7_0_FCLK_CLK0 [get_bd_ports CLK] [get_bd_pins OFDM_Controller_0/m00_axi_aclk] [get_bd_pins OFDM_Controller_0/m00_axis_aclk] [get_bd_pins OFDM_Controller_0/m01_axi_aclk] [get_bd_pins OFDM_Controller_0/m02_axi_aclk] [get_bd_pins OFDM_Controller_0/s00_axi_aclk] [get_bd_pins OFDM_Controller_0/s_axi_intr_aclk] [get_bd_pins cyclic_prefix/aclk] [get_bd_pins ifft/aclk] [get_bd_pins pilot_insertion/m00_axis_aclk] [get_bd_pins pilot_insertion/s00_axi_aclk] [get_bd_pins pilot_insertion/s00_axis_aclk] [get_bd_pins qam_modulator/m00_axis_aclk] [get_bd_pins qam_modulator/s00_axi_aclk] [get_bd_pins qam_modulator/s00_axis_aclk]
+  connect_bd_net -net cyclic_prefix_cp_flag [get_bd_pins cyclic_prefix/cp_flag] [get_bd_pins status_bus/In3]
+  connect_bd_net -net error_bus_dout [get_bd_ports ERROR] [get_bd_pins error_bus/dout]
+  connect_bd_net -net ifft_event_frame_started [get_bd_pins ifft/event_frame_started] [get_bd_pins status_bus/In2]
+  connect_bd_net -net pilot_insertion_error [get_bd_pins error_bus/In2] [get_bd_pins pilot_insertion/error]
+  connect_bd_net -net pilot_insertion_pilot_flag [get_bd_pins pilot_insertion/pilot_flag] [get_bd_pins status_bus/In1]
+  connect_bd_net -net preamble_preamble_flag [get_bd_pins preamble/preamble_flag] [get_bd_pins status_bus/In0]
+  connect_bd_net -net processing_system7_0_FCLK_CLK0 [get_bd_ports CLK] [get_bd_pins axi_interconnect/ACLK] [get_bd_pins axi_interconnect/M00_ACLK] [get_bd_pins axi_interconnect/M01_ACLK] [get_bd_pins axi_interconnect/M02_ACLK] [get_bd_pins axi_interconnect/M03_ACLK] [get_bd_pins axi_interconnect/M04_ACLK] [get_bd_pins axi_interconnect/S00_ACLK] [get_bd_pins cyclic_prefix/m00_axis_aclk] [get_bd_pins cyclic_prefix/s00_axi_aclk] [get_bd_pins cyclic_prefix/s00_axis_aclk] [get_bd_pins ifft/aclk] [get_bd_pins ifft_controller/m00_axis_aclk] [get_bd_pins ifft_controller/s00_axi_aclk] [get_bd_pins pilot_insertion/m00_axis_aclk] [get_bd_pins pilot_insertion/s00_axi_aclk] [get_bd_pins pilot_insertion/s00_axis_aclk] [get_bd_pins preamble/m00_axis_aclk] [get_bd_pins preamble/s00_axi_aclk] [get_bd_pins preamble/s00_axis_aclk] [get_bd_pins qam_modulator/m00_axis_aclk] [get_bd_pins qam_modulator/s00_axi_aclk] [get_bd_pins qam_modulator/s00_axis_aclk]
+  connect_bd_net -net status_bus_dout [get_bd_ports STATUS] [get_bd_pins status_bus/dout]
   connect_bd_net -net xfft_0_event_data_in_channel_halt [get_bd_pins error_bus/In6] [get_bd_pins ifft/event_data_in_channel_halt]
   connect_bd_net -net xfft_0_event_data_out_channel_halt [get_bd_pins error_bus/In7] [get_bd_pins ifft/event_data_out_channel_halt]
-  connect_bd_net -net xfft_0_event_frame_started [get_bd_pins error_bus/In2] [get_bd_pins ifft/event_frame_started]
   connect_bd_net -net xfft_0_event_status_channel_halt [get_bd_pins error_bus/In5] [get_bd_pins ifft/event_status_channel_halt]
   connect_bd_net -net xfft_0_event_tlast_missing [get_bd_pins error_bus/In4] [get_bd_pins ifft/event_tlast_missing]
   connect_bd_net -net xfft_0_event_tlast_unexpected [get_bd_pins error_bus/In3] [get_bd_pins ifft/event_tlast_unexpected]
 
   # Create address segments
+  create_bd_addr_seg -range 0x00001000 -offset 0x00000000 [get_bd_addr_spaces CONFIG_AXI] [get_bd_addr_segs ifft_controller/S00_AXI/S00_AXI_reg] SEG_FFT_Controller_0_S00_AXI_reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00001000 [get_bd_addr_spaces CONFIG_AXI] [get_bd_addr_segs cyclic_prefix/S00_AXI/S00_AXI_reg] SEG_cyclic_prefix_S00_AXI_reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00002000 [get_bd_addr_spaces CONFIG_AXI] [get_bd_addr_segs pilot_insertion/S00_AXI/S00_AXI_reg] SEG_pilot_insertion_S00_AXI_reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00003000 [get_bd_addr_spaces CONFIG_AXI] [get_bd_addr_segs preamble/S00_AXI/S00_AXI_reg] SEG_preamble_S00_AXI_reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00004000 [get_bd_addr_spaces CONFIG_AXI] [get_bd_addr_segs qam_modulator/S00_AXI/S00_AXI_reg] SEG_qam_modulator_S00_AXI_reg
 
   # Perform GUI Layout
   regenerate_bd_layout -layout_string {
    guistr: "# # String gsaved with Nlview 6.6.5b  2016-09-06 bk=1.3687 VDI=39 GEI=35 GUI=JA:1.6
 #  -string -flagsOSRD
-preplace port RST -pg 1 -y -30 -defaultsOSRD
-preplace port CLK -pg 1 -y -80 -defaultsOSRD
-preplace port DATA_OUT_AXIS -pg 1 -y 330 -defaultsOSRD
-preplace port CONFIG_AXI_INTR -pg 1 -y 70 -defaultsOSRD
-preplace port CONFIG_AXI -pg 1 -y 50 -defaultsOSRD
-preplace port DATA_IN_AXIS -pg 1 -y 10 -defaultsOSRD
-preplace inst pilot_insertion -pg 1 -lvl 3 -y 130 -defaultsOSRD
-preplace inst qam_modulator -pg 1 -lvl 2 -y 190 -defaultsOSRD
-preplace inst error_bus -pg 1 -lvl 6 -y 200 -defaultsOSRD
-preplace inst ifft -pg 1 -lvl 4 -y 210 -defaultsOSRD
-preplace inst OFDM_Controller_0 -pg 1 -lvl 1 -y 220 -defaultsOSRD
-preplace inst cyclic_prefix -pg 1 -lvl 5 -y 350 -defaultsOSRD
-preplace netloc Cyclic_Prefix_0_M00_AXIS 1 5 2 NJ 330 NJ
-preplace netloc S00_AXIS_1 1 0 2 -10J 0 370J
-preplace netloc xfft_0_event_tlast_unexpected 1 4 2 NJ 190 1590J
-preplace netloc xfft_0_event_frame_started 1 4 2 NJ 170 1590J
-preplace netloc xfft_0_event_data_out_channel_halt 1 4 2 NJ 270 1590J
-preplace netloc Pilot_Insertion_0_M00_AXIS 1 3 1 960
-preplace netloc QAM_Modulator_0_error 1 2 4 660J 10 NJ 10 NJ 10 1590
-preplace netloc CONFIG_AXI_1 1 0 1 N
-preplace netloc OFDM_Controller_0_M02_AXI 1 1 4 350J 320 NJ 320 NJ 320 NJ
-preplace netloc OFDM_Controller_0_M00_AXI 1 1 1 N
-preplace netloc error_bus_dout 1 0 7 10 -20 NJ -20 NJ -20 NJ -20 NJ -20 NJ -20 1770
-preplace netloc xfft_0_event_data_in_channel_halt 1 4 2 NJ 250 1590J
-preplace netloc CONFIG_AXI_INTR_1 1 0 1 N
-preplace netloc OFDM_Controller_0_M01_AXI 1 1 2 350J 60 NJ
-preplace netloc xfft_0_M_AXIS_DATA 1 4 1 1350
-preplace netloc OFDM_Controller_0_M00_AXIS 1 1 3 340J 310 NJ 310 960
-preplace netloc QAM_Modulator_0_M00_AXIS 1 2 1 680
-preplace netloc xfft_0_event_status_channel_halt 1 4 2 NJ 230 1590J
-preplace netloc xfft_0_event_tlast_missing 1 4 2 NJ 210 1590J
-preplace netloc Net1 1 0 5 -20 -30 360 -30 670 -30 950 -30 1360
-preplace netloc processing_system7_0_FCLK_CLK0 1 0 5 0J -80 380 -80 690 -80 970 -80 1370J
-preplace netloc Cyclic_Prefix_0_error 1 5 1 1590
-levelinfo -pg 1 -40 180 530 820 1170 1480 1680 1790 -top -100 -bot 450
+preplace port CLK -pg 1 -y 220 -defaultsOSRD
+preplace port RST -pg 1 -y 240 -defaultsOSRD
+preplace port DATA_OUT_AXIS -pg 1 -y 420 -defaultsOSRD
+preplace port CONFIG_AXI -pg 1 -y 200 -defaultsOSRD
+preplace port DATA_IN_AXIS -pg 1 -y 120 -defaultsOSRD
+preplace portBus STATUS -pg 1 -y 300 -defaultsOSRD
+preplace portBus ERROR -pg 1 -y 560 -defaultsOSRD
+preplace inst status_bus -pg 1 -lvl 7 -y 300 -defaultsOSRD
+preplace inst preamble -pg 1 -lvl 3 -y 120 -defaultsOSRD
+preplace inst pilot_insertion -pg 1 -lvl 4 -y 260 -defaultsOSRD
+preplace inst axi_interconnect -pg 1 -lvl 1 -y 340 -defaultsOSRD
+preplace inst qam_modulator -pg 1 -lvl 2 -y 170 -defaultsOSRD
+preplace inst error_bus -pg 1 -lvl 7 -y 560 -defaultsOSRD
+preplace inst ifft -pg 1 -lvl 5 -y 500 -defaultsOSRD
+preplace inst ifft_controller -pg 1 -lvl 4 -y 500 -defaultsOSRD
+preplace inst cyclic_prefix -pg 1 -lvl 6 -y 440 -defaultsOSRD
+preplace netloc Cyclic_Prefix_0_M00_AXIS 1 6 2 NJ 420 NJ
+preplace netloc S00_AXIS_1 1 0 2 NJ 120 NJ
+preplace netloc qam_modulator_M00_AXIS 1 2 1 610
+preplace netloc ifft_event_frame_started 1 5 2 1770 310 NJ
+preplace netloc xfft_0_event_tlast_unexpected 1 5 2 1770 570 2090J
+preplace netloc status_bus_dout 1 7 1 NJ
+preplace netloc xfft_0_event_data_out_channel_halt 1 5 2 1730 620 NJ
+preplace netloc Pilot_Insertion_0_M00_AXIS 1 4 1 1280
+preplace netloc Preamble_0_error 1 3 4 NJ 120 NJ 120 NJ 120 2100
+preplace netloc QAM_Modulator_0_error 1 2 5 610J 240 910J 130 NJ 130 NJ 130 2090
+preplace netloc axi_interconnect_0_M02_AXI 1 1 3 NJ 340 NJ 340 920
+preplace netloc error_bus_dout 1 7 1 NJ
+preplace netloc preamble_preamble_flag 1 3 4 NJ 140 NJ 140 NJ 140 2110
+preplace netloc xfft_0_event_data_in_channel_halt 1 5 2 1740 600 NJ
+preplace netloc cyclic_prefix_cp_flag 1 6 1 2080
+preplace netloc xfft_0_M_AXIS_DATA 1 5 1 1790
+preplace netloc axi_interconnect_0_M04_AXI 1 1 5 NJ 380 NJ 380 NJ 380 NJ 380 1760
+preplace netloc pilot_insertion_pilot_flag 1 4 3 N 260 NJ 260 2080J
+preplace netloc S00_AXI_1 1 0 1 NJ
+preplace netloc xfft_0_event_status_channel_halt 1 5 2 1750 580 NJ
+preplace netloc xfft_0_event_tlast_missing 1 5 2 1760 560 NJ
+preplace netloc FFT_Controller_0_M00_AXIS 1 4 1 N
+preplace netloc axi_interconnect_0_M00_AXI 1 1 1 310
+preplace netloc axi_interconnect_0_M01_AXI 1 1 2 N 320 600J
+preplace netloc Net1 1 0 6 20 540 330 540 630 540 940 410 1300 350 1800
+preplace netloc processing_system7_0_FCLK_CLK0 1 0 6 30 140 320 390 620 390 930 390 1290 390 1780
+preplace netloc pilot_insertion_error 1 4 3 NJ 280 NJ 280 2070
+preplace netloc Cyclic_Prefix_0_error 1 6 1 2060
+preplace netloc axi_interconnect_0_M03_AXI 1 1 3 NJ 360 NJ 360 910
+preplace netloc Preamble_0_M00_AXIS 1 3 1 930
+levelinfo -pg 1 0 170 470 770 1110 1520 1930 2200 2310 -top 0 -bot 690
 ",
 }
 

@@ -48,16 +48,16 @@
 
 
 // IP VLNV: user.org:user:Cyclic_Prefix:0.1
-// IP Revision: 7
+// IP Revision: 9
 
 `timescale 1ns/1ps
 
 (* DowngradeIPIdentifiedWarnings = "yes" *)
 module design_1_Cyclic_Prefix_0_0 (
-  aresetn,
-  aclk,
   cp_flag,
   error,
+  s00_axi_aclk,
+  s00_axi_aresetn,
   s00_axi_awaddr,
   s00_axi_awprot,
   s00_axi_awvalid,
@@ -77,10 +77,14 @@ module design_1_Cyclic_Prefix_0_0 (
   s00_axi_rresp,
   s00_axi_rvalid,
   s00_axi_rready,
+  s00_axis_aclk,
+  s00_axis_aresetn,
   s00_axis_tdata,
   s00_axis_tstrb,
   s00_axis_tlast,
   s00_axis_tvalid,
+  m00_axis_aclk,
+  m00_axis_aresetn,
   s00_axis_tready,
   m00_axis_tdata,
   m00_axis_tstrb,
@@ -89,12 +93,12 @@ module design_1_Cyclic_Prefix_0_0 (
   m00_axis_tready
 );
 
-(* X_INTERFACE_INFO = "xilinx.com:signal:reset:1.0 S00_AXI_RST RST, xilinx.com:signal:reset:1.0 S00_AXIS_RST RST, xilinx.com:signal:reset:1.0 M00_AXIS_RST RST, xilinx.com:signal:reset:1.0 s00_axi_aresetn RST, xilinx.com:signal:reset:1.0 s00_axis_aresetn RST, xilinx.com:signal:reset:1.0 m00_axis_aresetn RST, xilinx.com:signal:reset:1.0 rst RST, xilinx.com:signal:reset:1.0 aresetn RST" *)
-input wire aresetn;
-(* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 S00_AXI_CLK CLK, xilinx.com:signal:clock:1.0 S00_AXIS_CLK CLK, xilinx.com:signal:clock:1.0 M00_AXIS_CLK CLK, xilinx.com:signal:clock:1.0 s00_axi_aclk CLK, xilinx.com:signal:clock:1.0 s00_axis_aclk CLK, xilinx.com:signal:clock:1.0 m00_axis_aclk CLK, xilinx.com:signal:clock:1.0 aclk CLK" *)
-input wire aclk;
 output wire cp_flag;
 output wire error;
+(* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 S00_AXI_CLK CLK, xilinx.com:signal:clock:1.0 s00_axi_aclk CLK" *)
+input wire s00_axi_aclk;
+(* X_INTERFACE_INFO = "xilinx.com:signal:reset:1.0 S00_AXI_RST RST, xilinx.com:signal:reset:1.0 s00_axi_aresetn RST" *)
+input wire s00_axi_aresetn;
 (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 S00_AXI AWADDR" *)
 input wire [3 : 0] s00_axi_awaddr;
 (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 S00_AXI AWPROT" *)
@@ -133,6 +137,10 @@ output wire [1 : 0] s00_axi_rresp;
 output wire s00_axi_rvalid;
 (* X_INTERFACE_INFO = "xilinx.com:interface:aximm:1.0 S00_AXI RREADY" *)
 input wire s00_axi_rready;
+(* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 S00_AXIS_CLK CLK, xilinx.com:signal:clock:1.0 s00_axis_aclk CLK" *)
+input wire s00_axis_aclk;
+(* X_INTERFACE_INFO = "xilinx.com:signal:reset:1.0 S00_AXIS_RST RST, xilinx.com:signal:reset:1.0 s00_axis_aresetn RST" *)
+input wire s00_axis_aresetn;
 (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 S00_AXIS TDATA" *)
 input wire [31 : 0] s00_axis_tdata;
 (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 S00_AXIS TSTRB" *)
@@ -141,6 +149,10 @@ input wire [3 : 0] s00_axis_tstrb;
 input wire s00_axis_tlast;
 (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 S00_AXIS TVALID" *)
 input wire s00_axis_tvalid;
+(* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 M00_AXIS_CLK CLK, xilinx.com:signal:clock:1.0 m00_axis_aclk CLK" *)
+input wire m00_axis_aclk;
+(* X_INTERFACE_INFO = "xilinx.com:signal:reset:1.0 M00_AXIS_RST RST, xilinx.com:signal:reset:1.0 m00_axis_aresetn RST" *)
+input wire m00_axis_aresetn;
 (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 S00_AXIS TREADY" *)
 output wire s00_axis_tready;
 (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 M00_AXIS TDATA" *)
@@ -161,10 +173,10 @@ input wire m00_axis_tready;
     .C_M00_AXIS_TDATA_WIDTH(32),  // Width of S_AXIS address bus. The slave accepts the read and write addresses of width C_M_AXIS_TDATA_WIDTH.
     .C_M00_AXIS_START_COUNT(32)  // Start count is the numeber of clock cycles the master will wait before initiating/issuing any transaction.
   ) inst (
-    .aresetn(aresetn),
-    .aclk(aclk),
     .cp_flag(cp_flag),
     .error(error),
+    .s00_axi_aclk(s00_axi_aclk),
+    .s00_axi_aresetn(s00_axi_aresetn),
     .s00_axi_awaddr(s00_axi_awaddr),
     .s00_axi_awprot(s00_axi_awprot),
     .s00_axi_awvalid(s00_axi_awvalid),
@@ -184,10 +196,14 @@ input wire m00_axis_tready;
     .s00_axi_rresp(s00_axi_rresp),
     .s00_axi_rvalid(s00_axi_rvalid),
     .s00_axi_rready(s00_axi_rready),
+    .s00_axis_aclk(s00_axis_aclk),
+    .s00_axis_aresetn(s00_axis_aresetn),
     .s00_axis_tdata(s00_axis_tdata),
     .s00_axis_tstrb(s00_axis_tstrb),
     .s00_axis_tlast(s00_axis_tlast),
     .s00_axis_tvalid(s00_axis_tvalid),
+    .m00_axis_aclk(m00_axis_aclk),
+    .m00_axis_aresetn(m00_axis_aresetn),
     .s00_axis_tready(s00_axis_tready),
     .m00_axis_tdata(m00_axis_tdata),
     .m00_axis_tstrb(m00_axis_tstrb),

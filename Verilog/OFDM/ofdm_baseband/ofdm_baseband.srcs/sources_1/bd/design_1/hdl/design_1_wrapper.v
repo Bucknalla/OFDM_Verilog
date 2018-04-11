@@ -1,7 +1,7 @@
 //Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2016.4 (lin64) Build 1756540 Mon Jan 23 19:11:19 MST 2017
-//Date        : Thu Apr  5 15:28:44 2018
+//Date        : Wed Apr 11 16:38:29 2018
 //Host        : alex-warc running 64-bit Ubuntu 16.04.4 LTS
 //Command     : generate_target design_1_wrapper.bd
 //Design      : design_1_wrapper
@@ -31,18 +31,14 @@ module design_1_wrapper
     CONFIG_AXI_wstrb,
     CONFIG_AXI_wvalid,
     DATA_IN_AXIS_tdata,
-    DATA_IN_AXIS_tlast,
     DATA_IN_AXIS_tready,
-    DATA_IN_AXIS_tstrb,
     DATA_IN_AXIS_tvalid,
     DATA_OUT_AXIS_tdata,
     DATA_OUT_AXIS_tlast,
-    DATA_OUT_AXIS_tready,
-    DATA_OUT_AXIS_tstrb,
     DATA_OUT_AXIS_tvalid,
     ERROR,
     RST,
-    STATUS);
+    pilot_flag);
   input CLK;
   input [14:0]CONFIG_AXI_araddr;
   input [2:0]CONFIG_AXI_arprot;
@@ -64,18 +60,14 @@ module design_1_wrapper
   input [3:0]CONFIG_AXI_wstrb;
   input [0:0]CONFIG_AXI_wvalid;
   input [31:0]DATA_IN_AXIS_tdata;
-  input DATA_IN_AXIS_tlast;
   output DATA_IN_AXIS_tready;
-  input [3:0]DATA_IN_AXIS_tstrb;
   input DATA_IN_AXIS_tvalid;
   output [31:0]DATA_OUT_AXIS_tdata;
   output DATA_OUT_AXIS_tlast;
-  input DATA_OUT_AXIS_tready;
-  output [3:0]DATA_OUT_AXIS_tstrb;
   output DATA_OUT_AXIS_tvalid;
-  output [8:0]ERROR;
+  output ERROR;
   input RST;
-  output [3:0]STATUS;
+  output pilot_flag;
 
   wire CLK;
   wire [14:0]CONFIG_AXI_araddr;
@@ -98,18 +90,14 @@ module design_1_wrapper
   wire [3:0]CONFIG_AXI_wstrb;
   wire [0:0]CONFIG_AXI_wvalid;
   wire [31:0]DATA_IN_AXIS_tdata;
-  wire DATA_IN_AXIS_tlast;
   wire DATA_IN_AXIS_tready;
-  wire [3:0]DATA_IN_AXIS_tstrb;
   wire DATA_IN_AXIS_tvalid;
   wire [31:0]DATA_OUT_AXIS_tdata;
   wire DATA_OUT_AXIS_tlast;
-  wire DATA_OUT_AXIS_tready;
-  wire [3:0]DATA_OUT_AXIS_tstrb;
   wire DATA_OUT_AXIS_tvalid;
-  wire [8:0]ERROR;
+  wire ERROR;
   wire RST;
-  wire [3:0]STATUS;
+  wire pilot_flag;
 
   design_1 design_1_i
        (.CLK(CLK),
@@ -133,16 +121,12 @@ module design_1_wrapper
         .CONFIG_AXI_wstrb(CONFIG_AXI_wstrb),
         .CONFIG_AXI_wvalid(CONFIG_AXI_wvalid),
         .DATA_IN_AXIS_tdata(DATA_IN_AXIS_tdata),
-        .DATA_IN_AXIS_tlast(DATA_IN_AXIS_tlast),
         .DATA_IN_AXIS_tready(DATA_IN_AXIS_tready),
-        .DATA_IN_AXIS_tstrb(DATA_IN_AXIS_tstrb),
         .DATA_IN_AXIS_tvalid(DATA_IN_AXIS_tvalid),
         .DATA_OUT_AXIS_tdata(DATA_OUT_AXIS_tdata),
         .DATA_OUT_AXIS_tlast(DATA_OUT_AXIS_tlast),
-        .DATA_OUT_AXIS_tready(DATA_OUT_AXIS_tready),
-        .DATA_OUT_AXIS_tstrb(DATA_OUT_AXIS_tstrb),
         .DATA_OUT_AXIS_tvalid(DATA_OUT_AXIS_tvalid),
         .ERROR(ERROR),
         .RST(RST),
-        .STATUS(STATUS));
+        .pilot_flag(pilot_flag));
 endmodule

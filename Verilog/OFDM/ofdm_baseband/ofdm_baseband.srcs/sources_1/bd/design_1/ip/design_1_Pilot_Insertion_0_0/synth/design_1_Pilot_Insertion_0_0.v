@@ -48,7 +48,7 @@
 
 
 // IP VLNV: user.org:user:Pilot_Insertion:0.1
-// IP Revision: 5
+// IP Revision: 12
 
 (* X_CORE_INFO = "Pilot_Insertion_v0_1,Vivado 2016.4" *)
 (* CHECK_LICENSE_TYPE = "design_1_Pilot_Insertion_0_0,Pilot_Insertion_v0_1,{}" *)
@@ -57,15 +57,12 @@ module design_1_Pilot_Insertion_0_0 (
   pilot_flag,
   error,
   m00_axis_tdata,
-  m00_axis_tstrb,
   m00_axis_tlast,
   m00_axis_tvalid,
   m00_axis_tready,
   m00_axis_aclk,
   m00_axis_aresetn,
   s00_axis_tdata,
-  s00_axis_tstrb,
-  s00_axis_tlast,
   s00_axis_tvalid,
   s00_axis_tready,
   s00_axis_aclk,
@@ -97,8 +94,6 @@ output wire pilot_flag;
 output wire error;
 (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 M00_AXIS TDATA" *)
 output wire [31 : 0] m00_axis_tdata;
-(* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 M00_AXIS TSTRB" *)
-output wire [3 : 0] m00_axis_tstrb;
 (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 M00_AXIS TLAST" *)
 output wire m00_axis_tlast;
 (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 M00_AXIS TVALID" *)
@@ -111,10 +106,6 @@ input wire m00_axis_aclk;
 input wire m00_axis_aresetn;
 (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 S00_AXIS TDATA" *)
 input wire [31 : 0] s00_axis_tdata;
-(* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 S00_AXIS TSTRB" *)
-input wire [3 : 0] s00_axis_tstrb;
-(* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 S00_AXIS TLAST" *)
-input wire s00_axis_tlast;
 (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 S00_AXIS TVALID" *)
 input wire s00_axis_tvalid;
 (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 S00_AXIS TREADY" *)
@@ -176,15 +167,12 @@ input wire s00_axi_aresetn;
     .pilot_flag(pilot_flag),
     .error(error),
     .m00_axis_tdata(m00_axis_tdata),
-    .m00_axis_tstrb(m00_axis_tstrb),
     .m00_axis_tlast(m00_axis_tlast),
     .m00_axis_tvalid(m00_axis_tvalid),
     .m00_axis_tready(m00_axis_tready),
     .m00_axis_aclk(m00_axis_aclk),
     .m00_axis_aresetn(m00_axis_aresetn),
     .s00_axis_tdata(s00_axis_tdata),
-    .s00_axis_tstrb(s00_axis_tstrb),
-    .s00_axis_tlast(s00_axis_tlast),
     .s00_axis_tvalid(s00_axis_tvalid),
     .s00_axis_tready(s00_axis_tready),
     .s00_axis_aclk(s00_axis_aclk),

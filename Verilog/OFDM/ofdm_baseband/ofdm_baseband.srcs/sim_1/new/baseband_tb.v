@@ -20,77 +20,64 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module baseband_tb #(parameter CLK_PERIOD = 5) ();
+module baseband_tb();
 
 reg clk;
 reg [15:0] counter;
 reg rst; 
 reg [31:0] signal_in; 
 wire [31:0] signal_out;
-wire ready;
-wire valid;
+reg ready_in;
+reg valid_in;
+wire ready_out;
+wire valid_out;
 wire error;
-wire status;
+//wire [3:0] status;
+//reg tlast_in;
+//reg tstrb_in;
+//wire tlast_out;
+//wire tstrb_out; 
     
+parameter CLK_PERIOD = 10;    
 
 design_1 design_1_i
     (.CLK(clk),
 
-    .CONFIG_AXI_araddr(CONFIG_AXI_araddr),
-    .CONFIG_AXI_arprot(CONFIG_AXI_arprot),
-    .CONFIG_AXI_arready(CONFIG_AXI_arready),
-    .CONFIG_AXI_arvalid(CONFIG_AXI_arvalid),
-    .CONFIG_AXI_awaddr(CONFIG_AXI_awaddr),
-    .CONFIG_AXI_awprot(CONFIG_AXI_awprot),
-    .CONFIG_AXI_awready(CONFIG_AXI_awready),
-    .CONFIG_AXI_awvalid(CONFIG_AXI_awvalid),
-    .CONFIG_AXI_bready(CONFIG_AXI_bready),
-    .CONFIG_AXI_bresp(CONFIG_AXI_bresp),
-    .CONFIG_AXI_bvalid(CONFIG_AXI_bvalid),
-    .CONFIG_AXI_rdata(CONFIG_AXI_rdata),
-    .CONFIG_AXI_rready(CONFIG_AXI_rready),
-    .CONFIG_AXI_rresp(CONFIG_AXI_rresp),
-    .CONFIG_AXI_rvalid(CONFIG_AXI_rvalid),
-    .CONFIG_AXI_wdata(CONFIG_AXI_wdata),
-    .CONFIG_AXI_wready(CONFIG_AXI_wready),
-    .CONFIG_AXI_wstrb(CONFIG_AXI_wstrb),
-    .CONFIG_AXI_wvalid(CONFIG_AXI_wvalid),
-
     .DATA_IN_AXIS_tdata(signal_in),
-    .DATA_IN_AXIS_tlast(DATA_IN_AXIS_tlast),
-    .DATA_IN_AXIS_tready(ready),
-    .DATA_IN_AXIS_tstrb(DATA_IN_AXIS_tstrb),
-    .DATA_IN_AXIS_tvalid(DATA_IN_AXIS_tvalid),
+//    .DATA_IN_AXIS_tlast(tlast_in),
+    .DATA_IN_AXIS_tready(ready_out),
+//    .DATA_IN_AXIS_tstrb(tstrb_in),
+    .DATA_IN_AXIS_tvalid(valid_in),
+    
+//    .QAM_IN_AXIS_tdata(signal_in),
+////    .DATA_IN_AXIS_tlast(tlast_in),
+//     .QAM_IN_AXIS_tready(ready_out),
+//    //    .DATA_IN_AXIS_tstrb(tstrb_in),
+//     .QAM_IN_AXIS_tvalid(valid_in),
 
     .DATA_OUT_AXIS_tdata(signal_out),
-    .DATA_OUT_AXIS_tlast(DATA_OUT_AXIS_tlast),
-    .DATA_OUT_AXIS_tready(DATA_OUT_AXIS_tready),
-    .DATA_OUT_AXIS_tstrb(DATA_OUT_AXIS_tstrb),
-    .DATA_OUT_AXIS_tvalid(valid),
+//    .DATA_OUT_AXIS_tlast(tlast_out),
+//    .DATA_OUT_AXIS_tready(ready_in),
+////    .DATA_OUT_tstrb(tstrb_out),
+    .DATA_OUT_AXIS_tvalid(valid_out),
 
     .ERROR(error),
-    .RST(rst),
-    .STATUS(status));
+    .RST(rst)
+//    .STATUS(status)
+    );
 
+initial clk = 0;
 
-    
-// CLK GENERATION
-always
-begin
-    clk = 1'b1;
-    #(CLK_PERIOD/2) clk = 1'b0;
-    #(CLK_PERIOD/2);
-end
-
+always #5 clk = ~clk;
 
 // SIGNAL_IN INCREMENTER
 always
 begin
-    if(counter == 1024)
+    #5
+    if(ready_out & (clk))
     begin
-        signal_in = 0;
+        signal_in = signal_in +1;
     end
-    #1;
 end
 
 // S_AXIS_DATA (INPUT)
@@ -99,13 +86,17 @@ begin
     rst = 1;
     counter = 0;
     signal_in = 0;
-    #100;  
+//    tstrb_in = 0;
+//    tlast_in = 0;
+    ready_in = 1;
+    valid_in = 1; 
+    #20;  
     rst = 0;
-    repeat(1000)
-    begin
-        #20 signal_in = signal_in + 1;
-        counter = counter + 1'b1;
-    end      
+//    repeat(1000)
+//    begin
+//        #20 signal_in = signal_in + 1;
+//        counter = counter + 1'b1;
+//    end      
     #200000 $finish;
 end
         

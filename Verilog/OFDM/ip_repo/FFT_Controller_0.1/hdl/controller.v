@@ -29,19 +29,19 @@ module controller(
     input [31:0] slv_reg2, // 
     input [31:0] slv_reg3, // Address Register
     
-    output reg ready_out,
+    output reg valid_out,
     output reg [23:0] data_out,
-    input valid_in
+    input ready_in
     
     );
     
 always @ (posedge clk) begin
     if (rst) begin
-        ready_out <= 0;
+        valid_out <= 0;
         data_out <= 0;    
     end
-    else if(valid_in) begin
-        ready_out <= 1;
+    else if(ready_in) begin
+        valid_out <= 1;
         data_out <= {5'b0,slv_reg2[2:0],1'b0,slv_reg1[6:0],3'b0,slv_reg0[4:0]}; // 
     end
 

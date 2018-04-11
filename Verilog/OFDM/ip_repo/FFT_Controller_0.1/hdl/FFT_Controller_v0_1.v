@@ -14,7 +14,7 @@
 		parameter integer C_S00_AXI_ADDR_WIDTH	= 4,
 
 		// Parameters of Axi Master Bus Interface M00_AXIS
-		parameter integer C_M00_AXIS_TDATA_WIDTH	= 32,
+		parameter integer C_M00_AXIS_TDATA_WIDTH	= 24,
 		parameter integer C_M00_AXIS_START_COUNT	= 32
 	)
 	(
@@ -93,7 +93,7 @@
 		.M_AXIS_ARESETN(m00_axis_aresetn),
 		.M_AXIS_TVALID(m00_axis_tvalid),
 		.M_AXIS_TDATA(m00_axis_tdata),
-		.M_AXIS_TSTRB(m00_axis_tstrb),
+//		.M_AXIS_TSTRB(m00_axis_tstrb),
 		.M_AXIS_TLAST(m00_axis_tlast),
 		.M_AXIS_TREADY(m00_axis_tready)
 	);

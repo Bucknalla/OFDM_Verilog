@@ -1,7 +1,7 @@
 //Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2016.4 (lin64) Build 1756540 Mon Jan 23 19:11:19 MST 2017
-//Date        : Wed Apr 11 16:38:29 2018
+//Date        : Fri Apr 13 15:09:23 2018
 //Host        : alex-warc running 64-bit Ubuntu 16.04.4 LTS
 //Command     : generate_target design_1_wrapper.bd
 //Design      : design_1_wrapper
@@ -38,6 +38,8 @@ module design_1_wrapper
     DATA_OUT_AXIS_tvalid,
     ERROR,
     RST,
+    event_frame_started,
+    event_tlast_missing,
     pilot_flag);
   input CLK;
   input [14:0]CONFIG_AXI_araddr;
@@ -67,6 +69,8 @@ module design_1_wrapper
   output DATA_OUT_AXIS_tvalid;
   output ERROR;
   input RST;
+  output event_frame_started;
+  output event_tlast_missing;
   output pilot_flag;
 
   wire CLK;
@@ -97,6 +101,8 @@ module design_1_wrapper
   wire DATA_OUT_AXIS_tvalid;
   wire ERROR;
   wire RST;
+  wire event_frame_started;
+  wire event_tlast_missing;
   wire pilot_flag;
 
   design_1 design_1_i
@@ -128,5 +134,7 @@ module design_1_wrapper
         .DATA_OUT_AXIS_tvalid(DATA_OUT_AXIS_tvalid),
         .ERROR(ERROR),
         .RST(RST),
+        .event_frame_started(event_frame_started),
+        .event_tlast_missing(event_tlast_missing),
         .pilot_flag(pilot_flag));
 endmodule

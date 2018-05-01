@@ -100,19 +100,12 @@ vlog -work xil_defaultlib -64 "+incdir+../../../../ofdm_baseband.srcs/sources_1/
 "../../../bd/design_1/ipshared/7621/hdl/Preamble_v0_1_M00_AXIS.v" \
 "../../../bd/design_1/ipshared/7621/hdl/Preamble_v0_1.v" \
 "../../../bd/design_1/ip/design_1_Preamble_0_0/sim/design_1_Preamble_0_0.v" \
-"../../../bd/design_1/ipshared/edit_QAM_Modulator_v0_1.srcs/sources_1/new/qam_4.v" \
-"../../../bd/design_1/ipshared/df7d/hdl/QAM_2.v" \
-"../../../bd/design_1/ipshared/df7d/hdl/QAM_Top.v" \
-"../../../bd/design_1/ipshared/df7d/hdl/QAM_Modulator_v0_1_S00_AXI.v" \
-"../../../bd/design_1/ipshared/df7d/hdl/QAM_Modulator_v0_1_S00_AXIS.v" \
-"../../../bd/design_1/ipshared/df7d/hdl/QAM_Modulator_v0_1_M00_AXIS.v" \
-"../../../bd/design_1/ipshared/df7d/hdl/QAM_Modulator_v0_1.v" \
-"../../../bd/design_1/ip/design_1_QAM_Modulator_0_0/sim/design_1_QAM_Modulator_0_0.v" \
-"../../../bd/design_1/ipshared/689b/hdl/Pilot_Top.v" \
-"../../../bd/design_1/ipshared/689b/hdl/Pilot_Insertion_v0_1_S00_AXI.v" \
-"../../../bd/design_1/ipshared/689b/hdl/Pilot_Insertion_v0_1_S00_AXIS.v" \
-"../../../bd/design_1/ipshared/689b/hdl/Pilot_Insertion_v0_1_M00_AXIS.v" \
-"../../../bd/design_1/ipshared/689b/hdl/Pilot_Insertion_v0_1.v" \
+"../../../bd/design_1/ipshared/ed42/hdl/frame_counter.v" \
+"../../../bd/design_1/ipshared/ed42/hdl/Pilot_Top.v" \
+"../../../bd/design_1/ipshared/ed42/hdl/Pilot_Insertion_v0_1_S00_AXI.v" \
+"../../../bd/design_1/ipshared/ed42/hdl/Pilot_Insertion_v0_1_S00_AXIS.v" \
+"../../../bd/design_1/ipshared/ed42/hdl/Pilot_Insertion_v0_1_M00_AXIS.v" \
+"../../../bd/design_1/ipshared/ed42/hdl/Pilot_Insertion_v0_1.v" \
 "../../../bd/design_1/ip/design_1_Pilot_Insertion_0_0/sim/design_1_Pilot_Insertion_0_0.v" \
 
 vcom -work xbip_utils_v3_0_7 -64 -93 \
@@ -169,6 +162,14 @@ vlog -work xil_defaultlib -64 "+incdir+../../../../ofdm_baseband.srcs/sources_1/
 "../../../bd/design_1/ipshared/8cd5/hdl/FFT_Controller_v0_1_M00_AXIS.v" \
 "../../../bd/design_1/ipshared/8cd5/hdl/FFT_Controller_v0_1.v" \
 "../../../bd/design_1/ip/design_1_FFT_Controller_0_1/sim/design_1_FFT_Controller_0_1.v" \
+"../../../bd/design_1/ipshared/edit_QAM_Modulator_v0_1.srcs/sources_1/new/qam_4.v" \
+"../../../bd/design_1/ipshared/afec/hdl/QAM_2.v" \
+"../../../bd/design_1/ipshared/afec/hdl/QAM_Top.v" \
+"../../../bd/design_1/ipshared/afec/hdl/QAM_Modulator_v0_1_S00_AXI.v" \
+"../../../bd/design_1/ipshared/afec/hdl/QAM_Modulator_v0_1_S00_AXIS.v" \
+"../../../bd/design_1/ipshared/afec/hdl/QAM_Modulator_v0_1_M00_AXIS.v" \
+"../../../bd/design_1/ipshared/afec/hdl/QAM_Modulator_v0_1.v" \
+"../../../bd/design_1/ip/design_1_QAM_Modulator_0_1/sim/design_1_QAM_Modulator_0_1.v" \
 
 vlog -work xil_defaultlib "glbl.v"
 

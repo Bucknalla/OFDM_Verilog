@@ -48,13 +48,15 @@
 
 
 // IP VLNV: user.org:user:Pilot_Insertion:0.1
-// IP Revision: 13
+// IP Revision: 16
 
 (* X_CORE_INFO = "Pilot_Insertion_v0_1,Vivado 2016.4" *)
 (* CHECK_LICENSE_TYPE = "design_1_Pilot_Insertion_0_0,Pilot_Insertion_v0_1,{}" *)
 (* DowngradeIPIdentifiedWarnings = "yes" *)
 module design_1_Pilot_Insertion_0_0 (
   pilot_flag,
+  frame_start,
+  frame_end,
   error,
   m00_axis_tdata,
   m00_axis_tlast,
@@ -91,6 +93,8 @@ module design_1_Pilot_Insertion_0_0 (
 );
 
 output wire pilot_flag;
+output wire frame_start;
+output wire frame_end;
 output wire error;
 (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 M00_AXIS TDATA" *)
 output wire [31 : 0] m00_axis_tdata;
@@ -165,6 +169,8 @@ input wire s00_axi_aresetn;
     .C_S00_AXI_ADDR_WIDTH(4)  // Width of S_AXI address bus
   ) inst (
     .pilot_flag(pilot_flag),
+    .frame_start(frame_start),
+    .frame_end(frame_end),
     .error(error),
     .m00_axis_tdata(m00_axis_tdata),
     .m00_axis_tlast(m00_axis_tlast),

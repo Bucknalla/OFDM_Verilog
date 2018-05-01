@@ -1,7 +1,7 @@
 //Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2016.4 (lin64) Build 1756540 Mon Jan 23 19:11:19 MST 2017
-//Date        : Fri Apr 13 15:09:23 2018
+//Date        : Tue May  1 14:56:48 2018
 //Host        : alex-warc running 64-bit Ubuntu 16.04.4 LTS
 //Command     : generate_target design_1_wrapper.bd
 //Design      : design_1_wrapper
@@ -30,6 +30,7 @@ module design_1_wrapper
     CONFIG_AXI_wready,
     CONFIG_AXI_wstrb,
     CONFIG_AXI_wvalid,
+    DATA_INIT,
     DATA_IN_AXIS_tdata,
     DATA_IN_AXIS_tready,
     DATA_IN_AXIS_tvalid,
@@ -40,6 +41,8 @@ module design_1_wrapper
     RST,
     event_frame_started,
     event_tlast_missing,
+    frame_end,
+    frame_start,
     pilot_flag);
   input CLK;
   input [14:0]CONFIG_AXI_araddr;
@@ -61,6 +64,7 @@ module design_1_wrapper
   output [0:0]CONFIG_AXI_wready;
   input [3:0]CONFIG_AXI_wstrb;
   input [0:0]CONFIG_AXI_wvalid;
+  input DATA_INIT;
   input [31:0]DATA_IN_AXIS_tdata;
   output DATA_IN_AXIS_tready;
   input DATA_IN_AXIS_tvalid;
@@ -71,6 +75,8 @@ module design_1_wrapper
   input RST;
   output event_frame_started;
   output event_tlast_missing;
+  output frame_end;
+  output frame_start;
   output pilot_flag;
 
   wire CLK;
@@ -93,6 +99,7 @@ module design_1_wrapper
   wire [0:0]CONFIG_AXI_wready;
   wire [3:0]CONFIG_AXI_wstrb;
   wire [0:0]CONFIG_AXI_wvalid;
+  wire DATA_INIT;
   wire [31:0]DATA_IN_AXIS_tdata;
   wire DATA_IN_AXIS_tready;
   wire DATA_IN_AXIS_tvalid;
@@ -103,6 +110,8 @@ module design_1_wrapper
   wire RST;
   wire event_frame_started;
   wire event_tlast_missing;
+  wire frame_end;
+  wire frame_start;
   wire pilot_flag;
 
   design_1 design_1_i
@@ -126,6 +135,7 @@ module design_1_wrapper
         .CONFIG_AXI_wready(CONFIG_AXI_wready),
         .CONFIG_AXI_wstrb(CONFIG_AXI_wstrb),
         .CONFIG_AXI_wvalid(CONFIG_AXI_wvalid),
+        .DATA_INIT(DATA_INIT),
         .DATA_IN_AXIS_tdata(DATA_IN_AXIS_tdata),
         .DATA_IN_AXIS_tready(DATA_IN_AXIS_tready),
         .DATA_IN_AXIS_tvalid(DATA_IN_AXIS_tvalid),
@@ -136,5 +146,7 @@ module design_1_wrapper
         .RST(RST),
         .event_frame_started(event_frame_started),
         .event_tlast_missing(event_tlast_missing),
+        .frame_end(frame_end),
+        .frame_start(frame_start),
         .pilot_flag(pilot_flag));
 endmodule

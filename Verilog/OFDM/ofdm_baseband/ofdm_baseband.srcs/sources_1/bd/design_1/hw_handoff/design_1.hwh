@@ -1,23 +1,30 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Fri Apr 13 15:09:23 2018" VIVADOVERSION="2016.4">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Tue May  1 14:56:49 2018" VIVADOVERSION="2016.4">
 
   <SYSTEMINFO ARCH="zynq" BOARD="digilentinc.com:zedboard:part0:1.0" DEVICE="7z020" NAME="design_1" PACKAGE="clg484" SPEEDGRADE="-1"/>
 
   <EXTERNALPORTS>
+    <PORT DIR="I" LEFT="31" NAME="DATA_IN_AXIS_tdata" RIGHT="0" SIGIS="undef"/>
+    <PORT DIR="I" NAME="DATA_IN_AXIS_tvalid" SIGIS="undef"/>
+    <PORT DIR="O" NAME="DATA_IN_AXIS_tready" SIGIS="undef"/>
+    <PORT DIR="O" LEFT="31" NAME="DATA_OUT_AXIS_tdata" RIGHT="0" SIGIS="undef"/>
+    <PORT DIR="O" NAME="DATA_OUT_AXIS_tlast" SIGIS="undef"/>
+    <PORT DIR="I" NAME="DATA_OUT_AXIS_tready" SIGIS="undef"/>
+    <PORT DIR="O" NAME="DATA_OUT_AXIS_tvalid" SIGIS="undef"/>
     <PORT CLKFREQUENCY="100000000" DIR="I" NAME="CLK" SIGIS="clk" SIGNAME="External_Ports_CLK">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="axi_interconnect" PORT="ACLK"/>
-        <CONNECTION INSTANCE="axi_interconnect" PORT="S00_ACLK"/>
-        <CONNECTION INSTANCE="axi_interconnect" PORT="M00_ACLK"/>
-        <CONNECTION INSTANCE="axi_interconnect" PORT="M01_ACLK"/>
-        <CONNECTION INSTANCE="axi_interconnect" PORT="M02_ACLK"/>
-        <CONNECTION INSTANCE="axi_interconnect" PORT="M03_ACLK"/>
         <CONNECTION INSTANCE="Preamble_0" PORT="m00_axis_aclk"/>
         <CONNECTION INSTANCE="Preamble_0" PORT="s00_axis_aclk"/>
         <CONNECTION INSTANCE="Preamble_0" PORT="s00_axi_aclk"/>
         <CONNECTION INSTANCE="FFT_Controller_0" PORT="s00_axi_aclk"/>
         <CONNECTION INSTANCE="FFT_Controller_0" PORT="m00_axis_aclk"/>
         <CONNECTION INSTANCE="xfft_0" PORT="aclk"/>
+        <CONNECTION INSTANCE="axi_interconnect" PORT="ACLK"/>
+        <CONNECTION INSTANCE="axi_interconnect" PORT="S00_ACLK"/>
+        <CONNECTION INSTANCE="axi_interconnect" PORT="M00_ACLK"/>
+        <CONNECTION INSTANCE="axi_interconnect" PORT="M01_ACLK"/>
+        <CONNECTION INSTANCE="axi_interconnect" PORT="M02_ACLK"/>
+        <CONNECTION INSTANCE="axi_interconnect" PORT="M03_ACLK"/>
         <CONNECTION INSTANCE="QAM_Modulator_0" PORT="s00_axi_aclk"/>
         <CONNECTION INSTANCE="QAM_Modulator_0" PORT="s00_axis_aclk"/>
         <CONNECTION INSTANCE="QAM_Modulator_0" PORT="m00_axis_aclk"/>
@@ -35,6 +42,26 @@
         <CONNECTION INSTANCE="axi_interconnect" PORT="M01_ARESETN"/>
         <CONNECTION INSTANCE="axi_interconnect" PORT="M02_ARESETN"/>
         <CONNECTION INSTANCE="axi_interconnect" PORT="M03_ARESETN"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" NAME="pilot_flag" SIGIS="undef" SIGNAME="Pilot_Insertion_0_pilot_flag">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="Pilot_Insertion_0" PORT="pilot_flag"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" NAME="ERROR" SIGIS="undef" SIGNAME="xfft_0_event_tlast_unexpected">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="xfft_0" PORT="event_tlast_unexpected"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" NAME="event_frame_started" SENSITIVITY="EDGE_RISING" SIGIS="INTERRUPT" SIGNAME="xfft_0_event_frame_started">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="xfft_0" PORT="event_frame_started"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" NAME="event_tlast_missing" SENSITIVITY="EDGE_RISING" SIGIS="INTERRUPT" SIGNAME="xfft_0_event_tlast_missing">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="xfft_0" PORT="event_tlast_missing"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="I" LEFT="14" NAME="CONFIG_AXI_awaddr" RIGHT="0" SIGIS="undef"/>
@@ -56,31 +83,15 @@
     <PORT DIR="O" LEFT="1" NAME="CONFIG_AXI_rresp" RIGHT="0" SIGIS="undef"/>
     <PORT DIR="O" LEFT="0" NAME="CONFIG_AXI_rvalid" RIGHT="0" SIGIS="undef"/>
     <PORT DIR="I" LEFT="0" NAME="CONFIG_AXI_rready" RIGHT="0" SIGIS="undef"/>
-    <PORT DIR="I" LEFT="31" NAME="DATA_IN_AXIS_tdata" RIGHT="0" SIGIS="undef"/>
-    <PORT DIR="I" NAME="DATA_IN_AXIS_tvalid" SIGIS="undef"/>
-    <PORT DIR="O" NAME="DATA_IN_AXIS_tready" SIGIS="undef"/>
-    <PORT DIR="O" NAME="ERROR" SIGIS="undef" SIGNAME="xfft_0_event_tlast_unexpected">
+    <PORT DIR="I" NAME="DATA_INIT" SIGIS="undef"/>
+    <PORT DIR="O" NAME="frame_start" SIGIS="undef" SIGNAME="Pilot_Insertion_0_frame_start">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="xfft_0" PORT="event_tlast_unexpected"/>
+        <CONNECTION INSTANCE="Pilot_Insertion_0" PORT="frame_start"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="O" LEFT="31" NAME="DATA_OUT_AXIS_tdata" RIGHT="0" SIGIS="undef"/>
-    <PORT DIR="O" NAME="DATA_OUT_AXIS_tvalid" SIGIS="undef"/>
-    <PORT DIR="I" NAME="DATA_OUT_AXIS_tready" SIGIS="undef"/>
-    <PORT DIR="O" NAME="DATA_OUT_AXIS_tlast" SIGIS="undef"/>
-    <PORT DIR="O" NAME="pilot_flag" SIGIS="undef" SIGNAME="Pilot_Insertion_0_pilot_flag">
+    <PORT DIR="O" NAME="frame_end" SIGIS="undef" SIGNAME="Pilot_Insertion_0_frame_end">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="Pilot_Insertion_0" PORT="pilot_flag"/>
-      </CONNECTIONS>
-    </PORT>
-    <PORT DIR="O" NAME="event_frame_started" SENSITIVITY="EDGE_RISING" SIGIS="INTERRUPT" SIGNAME="xfft_0_event_frame_started">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="xfft_0" PORT="event_frame_started"/>
-      </CONNECTIONS>
-    </PORT>
-    <PORT DIR="O" NAME="event_tlast_missing" SENSITIVITY="EDGE_RISING" SIGIS="INTERRUPT" SIGNAME="xfft_0_event_tlast_missing">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="xfft_0" PORT="event_tlast_missing"/>
+        <CONNECTION INSTANCE="Pilot_Insertion_0" PORT="frame_end"/>
       </CONNECTIONS>
     </PORT>
   </EXTERNALPORTS>
@@ -185,9 +196,9 @@
       <PARAMETER NAME="LAYERED_METADATA" VALUE="xilinx.com:interface:datatypes:1.0 {TDATA {datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type automatic dependency {} format long minimum {} maximum {}} value 32} bitoffset {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 0} array_type {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value chan} size {attribs {resolve_type generated dependency chan_size format long minimum {} maximum {}} value 1} stride {attribs {resolve_type generated dependency chan_stride format long minimum {} maximum {}} value 32} datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type automatic dependency {} format long minimum {} maximum {}} value 32} bitoffset {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 0} struct {field_xn_re {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value xn_re} enabled {attribs {resolve_type immediate dependency {} format bool minimum {} maximum {}} value true} datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type automatic dependency {} format long minimum {} maximum {}} value 16} bitoffset {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 0} array_type {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} size {attribs {resolve_type generated dependency frame_size format long minimum {} maximum {}} value -1} stride {attribs {resolve_type generated dependency frame_stride format long minimum {} maximum {}} value 32} datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type generated dependency xn_width format long minimum {} maximum {}} value 16} bitoffset {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 0} real {fixed {fractwidth {attribs {resolve_type generated dependency xn_fractwidth format long minimum {} maximum {}} value 15} signed {attribs {resolve_type immediate dependency {} format bool minimum {} maximum {}} value true}}}}}}} field_xn_im {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value xn_im} enabled {attribs {resolve_type immediate dependency {} format bool minimum {} maximum {}} value true} datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type automatic dependency {} format long minimum {} maximum {}} value 16} bitoffset {attribs {resolve_type generated dependency xn_im_offset format long minimum {} maximum {}} value 16} array_type {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} size {attribs {resolve_type generated dependency frame_size format long minimum {} maximum {}} value -1} stride {attribs {resolve_type generated dependency frame_stride format long minimum {} maximum {}} value 32} datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type generated dependency xn_width format long minimum {} maximum {}} value 16} bitoffset {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 0} real {fixed {fractwidth {attribs {resolve_type generated dependency xn_fractwidth format long minimum {} maximum {}} value 15} signed {attribs {resolve_type immediate dependency {} format bool minimum {} maximum {}} value true}}}}}}}}}}}} TDATA_WIDTH 32 TUSER {datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type automatic dependency {} format long minimum {} maximum {}} value 0} bitoffset {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 0} struct {field_xk_index {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value xk_index} enabled {attribs {resolve_type generated dependency xk_index_enabled format bool minimum {} maximum {}} value false} datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type generated dependency xk_index_width format long minimum {} maximum {}} value 0} bitoffset {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 0} integer {signed {attribs {resolve_type immediate dependency {} format bool minimum {} maximum {}} value false}}}} field_blk_exp {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value blk_exp} enabled {attribs {resolve_type generated dependency blk_exp_enabled format bool minimum {} maximum {}} value false} datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type automatic dependency {} format long minimum {} maximum {}} value 5} bitoffset {attribs {resolve_type generated dependency blk_exp_offset format long minimum {} maximum {}} value 0} array_type {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} size {attribs {resolve_type generated dependency chan_size format long minimum {} maximum {}} value 1} stride {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 8} datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 5} bitoffset {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 0} integer {signed {attribs {resolve_type immediate dependency {} format bool minimum {} maximum {}} value false}}}}}} field_ovflo {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value ovflo} enabled {attribs {resolve_type generated dependency ovflo_enabled format bool minimum {} maximum {}} value false} datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type automatic dependency {} format long minimum {} maximum {}} value 1} bitoffset {attribs {resolve_type generated dependency ovflo_offset format long minimum {} maximum {}} value 0} array_type {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} size {attribs {resolve_type generated dependency chan_size format long minimum {} maximum {}} value 1} stride {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 1} datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 1} bitoffset {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 0} integer {signed {attribs {resolve_type immediate dependency {} format bool minimum {} maximum {}} value false}}}}}}}}} TUSER_WIDTH 0}"/>
       <PORTMAPS>
         <PORTMAP LOGICAL="TDATA" PHYSICAL="DATA_OUT_AXIS_tdata"/>
-        <PORTMAP LOGICAL="TVALID" PHYSICAL="DATA_OUT_AXIS_tvalid"/>
-        <PORTMAP LOGICAL="TREADY" PHYSICAL="DATA_OUT_AXIS_tready"/>
         <PORTMAP LOGICAL="TLAST" PHYSICAL="DATA_OUT_AXIS_tlast"/>
+        <PORTMAP LOGICAL="TREADY" PHYSICAL="DATA_OUT_AXIS_tready"/>
+        <PORTMAP LOGICAL="TVALID" PHYSICAL="DATA_OUT_AXIS_tvalid"/>
       </PORTMAPS>
     </BUSINTERFACE>
   </EXTERNALINTERFACES>
@@ -435,6 +446,16 @@
         <PORT DIR="O" NAME="pilot_flag" SIGIS="undef" SIGNAME="Pilot_Insertion_0_pilot_flag">
           <CONNECTIONS>
             <CONNECTION INSTANCE="External_Ports" PORT="pilot_flag"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="frame_start" SIGIS="undef" SIGNAME="Pilot_Insertion_0_frame_start">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="frame_start"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="frame_end" SIGIS="undef" SIGNAME="Pilot_Insertion_0_frame_end">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="frame_end"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="error" SIGIS="undef"/>
@@ -976,7 +997,7 @@
         <PARAMETER NAME="C_S00_AXIS_TDATA_WIDTH" VALUE="32"/>
         <PARAMETER NAME="C_M00_AXIS_TDATA_WIDTH" VALUE="32"/>
         <PARAMETER NAME="C_M00_AXIS_START_COUNT" VALUE="32"/>
-        <PARAMETER NAME="Component_Name" VALUE="design_1_QAM_Modulator_0_0"/>
+        <PARAMETER NAME="Component_Name" VALUE="design_1_QAM_Modulator_0_1"/>
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
         <PARAMETER NAME="C_S00_AXI_BASEADDR" VALUE="0x00001000"/>
         <PARAMETER NAME="C_S00_AXI_HIGHADDR" VALUE="0x00001FFF"/>

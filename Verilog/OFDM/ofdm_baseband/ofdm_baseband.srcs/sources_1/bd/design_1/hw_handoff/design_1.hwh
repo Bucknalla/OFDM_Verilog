@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Tue May  1 14:56:49 2018" VIVADOVERSION="2016.4">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Thu May  3 17:01:26 2018" VIVADOVERSION="2016.4">
 
   <SYSTEMINFO ARCH="zynq" BOARD="digilentinc.com:zedboard:part0:1.0" DEVICE="7z020" NAME="design_1" PACKAGE="clg484" SPEEDGRADE="-1"/>
 
@@ -25,12 +25,12 @@
         <CONNECTION INSTANCE="axi_interconnect" PORT="M01_ACLK"/>
         <CONNECTION INSTANCE="axi_interconnect" PORT="M02_ACLK"/>
         <CONNECTION INSTANCE="axi_interconnect" PORT="M03_ACLK"/>
-        <CONNECTION INSTANCE="QAM_Modulator_0" PORT="s00_axi_aclk"/>
-        <CONNECTION INSTANCE="QAM_Modulator_0" PORT="s00_axis_aclk"/>
-        <CONNECTION INSTANCE="QAM_Modulator_0" PORT="m00_axis_aclk"/>
         <CONNECTION INSTANCE="Pilot_Insertion_0" PORT="m00_axis_aclk"/>
         <CONNECTION INSTANCE="Pilot_Insertion_0" PORT="s00_axis_aclk"/>
         <CONNECTION INSTANCE="Pilot_Insertion_0" PORT="s00_axi_aclk"/>
+        <CONNECTION INSTANCE="QAM_Modulator_0" PORT="s00_axi_aclk"/>
+        <CONNECTION INSTANCE="QAM_Modulator_0" PORT="s00_axis_aclk"/>
+        <CONNECTION INSTANCE="QAM_Modulator_0" PORT="m00_axis_aclk"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="I" NAME="RST" SIGIS="undef" SIGNAME="External_Ports_RST">
@@ -2186,12 +2186,12 @@
             <CONNECTION INSTANCE="Preamble_0" PORT="s00_axi_aresetn"/>
             <CONNECTION INSTANCE="FFT_Controller_0" PORT="s00_axi_aresetn"/>
             <CONNECTION INSTANCE="FFT_Controller_0" PORT="m00_axis_aresetn"/>
-            <CONNECTION INSTANCE="QAM_Modulator_0" PORT="s00_axi_aresetn"/>
-            <CONNECTION INSTANCE="QAM_Modulator_0" PORT="s00_axis_aresetn"/>
-            <CONNECTION INSTANCE="QAM_Modulator_0" PORT="m00_axis_aresetn"/>
             <CONNECTION INSTANCE="Pilot_Insertion_0" PORT="m00_axis_aresetn"/>
             <CONNECTION INSTANCE="Pilot_Insertion_0" PORT="s00_axis_aresetn"/>
             <CONNECTION INSTANCE="Pilot_Insertion_0" PORT="s00_axi_aresetn"/>
+            <CONNECTION INSTANCE="QAM_Modulator_0" PORT="s00_axi_aresetn"/>
+            <CONNECTION INSTANCE="QAM_Modulator_0" PORT="s00_axis_aresetn"/>
+            <CONNECTION INSTANCE="QAM_Modulator_0" PORT="m00_axis_aresetn"/>
           </CONNECTIONS>
         </PORT>
       </PORTS>

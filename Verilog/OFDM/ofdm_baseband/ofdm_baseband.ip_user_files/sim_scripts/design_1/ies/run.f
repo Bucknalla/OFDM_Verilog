@@ -110,12 +110,12 @@
   "../../../bd/design_1/ipshared/8cd5/hdl/FFT_Controller_v0_1.v" \
   "../../../bd/design_1/ip/design_1_FFT_Controller_0_1/sim/design_1_FFT_Controller_0_1.v" \
   "../../../bd/design_1/ipshared/edit_QAM_Modulator_v0_1.srcs/sources_1/new/qam_4.v" \
-  "../../../bd/design_1/ipshared/afec/hdl/QAM_2.v" \
-  "../../../bd/design_1/ipshared/afec/hdl/QAM_Top.v" \
-  "../../../bd/design_1/ipshared/afec/hdl/QAM_Modulator_v0_1_S00_AXI.v" \
-  "../../../bd/design_1/ipshared/afec/hdl/QAM_Modulator_v0_1_S00_AXIS.v" \
-  "../../../bd/design_1/ipshared/afec/hdl/QAM_Modulator_v0_1_M00_AXIS.v" \
-  "../../../bd/design_1/ipshared/afec/hdl/QAM_Modulator_v0_1.v" \
+  "../../../bd/design_1/ipshared/72c7/hdl/QAM_2.v" \
+  "../../../bd/design_1/ipshared/72c7/hdl/QAM_Top.v" \
+  "../../../bd/design_1/ipshared/72c7/hdl/QAM_Modulator_v0_1_S00_AXI.v" \
+  "../../../bd/design_1/ipshared/72c7/hdl/QAM_Modulator_v0_1_S00_AXIS.v" \
+  "../../../bd/design_1/ipshared/72c7/hdl/QAM_Modulator_v0_1_M00_AXIS.v" \
+  "../../../bd/design_1/ipshared/72c7/hdl/QAM_Modulator_v0_1.v" \
   "../../../bd/design_1/ip/design_1_QAM_Modulator_0_1/sim/design_1_QAM_Modulator_0_1.v" \
 -endlib
 -makelib ies/xil_defaultlib \
